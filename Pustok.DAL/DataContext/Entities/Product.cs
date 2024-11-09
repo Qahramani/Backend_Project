@@ -2,18 +2,18 @@
 
 namespace Pustok.DAL.DataContext.Entities;
 
-public class Product : Timestample
+public class Product : BaseEntity
 {
     public required string Name { get; set; }
     public required string Description { get; set; }
     public required string ProductCode { get; set; }
     public required string Brand { get; set; }
-    public required string Color { get; set; }
+    public string? Color { get; set; }
     public decimal OriginalPrice { get; set; }
     public decimal DiscountPrice { get; set; }
     public decimal Tax { get; set; }
-    public bool InStock { get; set; }
-    public bool InDeleted { get; set; }
+    public bool InStock { get; set; } = false;
+    public bool IsDeleted { get; set; } = false;
     public int StockQuantity { get; set; }
     public int Rating { get; set; }
     public int RewardPoint { get; set; }
