@@ -2,6 +2,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using Pustok.DAL.DataContext;
 using Microsoft.AspNetCore.Identity;
+using Pustok.DAL.Repositories.Abstraction;
+using Pustok.DAL.Repositories.Implementation;
 
 namespace Pustok.DAL;
 
@@ -29,6 +31,15 @@ public static class DataAccessLayerRegistration
 
         }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
+        services.AddScoped<IBasketItemRepository, BasketItemManager>();
+        services.AddScoped<ICategoryRepository, CategoryManager>();
+        services.AddScoped<IProductRepository, ProductManager>();
+        services.AddScoped<IProductImageRepository, ProductImageManager>();
+        services.AddScoped<IServiceRepository, ServiceManager>();
+        services.AddScoped<ISettingRepository, SettingManager>();
+        services.AddScoped<ISliderRepository, SliderManager>();
+        services.AddScoped<ISubscribeRepository, SubscribeManager>();
+        services.AddScoped<ITagRepository, TagManager>();
 
         services.AddScoped<DataInitializer>();
 
