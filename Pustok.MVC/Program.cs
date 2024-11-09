@@ -1,4 +1,5 @@
 using Pustok.DAL;
+using Pustok.DAL.DataContext;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,12 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDalServices(builder.Configuration);
 
 var app = builder.Build();
+
+using(var scope = app.Services.CreateScope())
+{
+    var initializer = scope.ServiceProvider.GetRequiredService<DataInitializer>();
+    await initializer.SeedData();
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -28,4 +35,4 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.Run();
+await app.RunAsync();

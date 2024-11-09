@@ -12,7 +12,7 @@ using Pustok.DAL.DataContext;
 namespace Pustok.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241109125531_Init")]
+    [Migration("20241109151324_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -620,7 +620,7 @@ namespace Pustok.DAL.Migrations
                     b.HasOne("Pustok.DAL.DataContext.Entities.Category", "ParentCategory")
                         .WithMany("SubCategories")
                         .HasForeignKey("ParentCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("ParentCategory");

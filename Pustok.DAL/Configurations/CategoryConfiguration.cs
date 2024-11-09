@@ -9,5 +9,9 @@ internal class CategoryConfiguration : IEntityTypeConfiguration<Category>
     {
         builder.Property(x => x.Name).IsRequired().HasMaxLength(256);
         builder.Property(x => x.ParentCategoryId).IsRequired();
+        builder.HasOne(c => c.ParentCategory)
+       .WithMany(c => c.SubCategories)
+       .HasForeignKey(c => c.ParentCategoryId)
+       .OnDelete(DeleteBehavior.Restrict);
     }
 }
