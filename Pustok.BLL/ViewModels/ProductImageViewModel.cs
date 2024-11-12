@@ -10,7 +10,7 @@ public class ProductImageViewModel : IViewModel
     public bool IsSecondary { get; set; } = false;
 }
 
-public class ProductImagePostViewModel : IViewModel
+public class ProductImageCreateViewModel : IViewModel
 {
     public required IFormFile ImageFile{ get; set; }
     public string? ImageUrl { get; set; }

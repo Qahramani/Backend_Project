@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Pustok.BLL.Helpers;
 using Pustok.BLL.Services.Abstraction;
 using Pustok.BLL.ViewModels;
 
@@ -32,20 +30,20 @@ public class CategoryController : Controller
     {
         var parentCategories = await _categoryService.GetParentCategories();
 
-        CategoryPostViewModel vm = new() { ParentCategories = parentCategories };
+        CategoryCreateViewModel vm = new() { ParentCategories = parentCategories };
 
         return View(vm);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(CategoryPostViewModel model)
+    public async Task<IActionResult> Create(CategoryCreateViewModel model)
     {
 
         if (!ModelState.IsValid)
         {
             var parentCategories = await _categoryService.GetParentCategories();
 
-            CategoryPostViewModel vm = new() { ParentCategories = parentCategories };
+            CategoryCreateViewModel vm = new() { ParentCategories = parentCategories };
 
             return View(vm);
         }
@@ -73,7 +71,6 @@ public class CategoryController : Controller
 
         var category = await _categoryService.GetAsync(id);
 
-
         var parentCategories = await _categoryService.GetParentCategories();
         
         var vm = _mapper.Map<CategoryUpdateViewModel>(category);   
@@ -95,6 +92,29 @@ public class CategoryController : Controller
         }
 
        await _categoryService.UpdateAsync(model);
+
+        return RedirectToAction(nameof(Index));
+    }
+
+    public async Task<IActionResult> Delete(int id)
+    {
+        var category = await _categoryService.GetAsync(id);
+
+        if (category == null) return NotFound();
+
+        return View(category);
+    }
+    [HttpPost]
+    public async Task<IActionResult> Delete(int id, string deleteOption)
+    {
+        if (deleteOption == "deleteWithSubcategories")
+        {
+            await _categoryService.RemoveAsync(id);
+        }
+        else if (deleteOption == "deleteAndOrphanSubcategories")
+        {
+            await _categoryService.RemoveAndNullifyChildrenAsync(id);
+        }
 
         return RedirectToAction(nameof(Index));
     }

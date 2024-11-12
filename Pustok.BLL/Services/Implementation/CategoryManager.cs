@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore.Update.Internal;
-using Pustok.BLL.Helpers;
+using Pustok.BLL.Helpers.Contracts;
 using Pustok.BLL.Services.Abstraction;
 using Pustok.BLL.Services.Implementation.Generic;
 using Pustok.DAL.Repositories.Abstraction;
@@ -10,23 +7,23 @@ using Pustok.DAL.Repositories.Abstraction.Generic;
 
 namespace Pustok.BLL.Services.Implementation;
 
-public class CategoryManager : CrudManager<Category, CategoryViewModel, CategoryListViewModel, CategoryPostViewModel, CategoryUpdateViewModel>, ICategoryService
+public class CategoryManager : CrudManager<Category, CategoryViewModel, CategoryListViewModel, CategoryCreateViewModel, CategoryUpdateViewModel>, ICategoryService
 {
-    private readonly string path = "";
     private readonly IWebHostEnvironment _webhosEnvironment;
     private readonly ICategoryRepository _categoryRepository;
     private readonly IMapper _mapper;
+    private readonly ICloudinaryService _cloudinaryService;
 
-    public CategoryManager(IWebHostEnvironment webhosEnvironment, IRepository<Category> repository, IMapper mapper, ICategoryRepository categoryRepository) : base(repository, mapper)
+    public CategoryManager(IWebHostEnvironment webhosEnvironment, IRepository<Category> repository, IMapper mapper, ICategoryRepository categoryRepository, ICloudinaryService cloudinaryService) : base(repository, mapper)
     {
         _webhosEnvironment = webhosEnvironment;
-        path = Path.Combine(_webhosEnvironment.WebRootPath, "image", "category");
         _categoryRepository = categoryRepository;
         _mapper = mapper;
+        _cloudinaryService = cloudinaryService;
     }
-    public override async Task<CategoryViewModel> CreateAsync(CategoryPostViewModel createViewModel)
+    public override async Task<CategoryViewModel> CreateAsync(CategoryCreateViewModel createViewModel)
     {
-        createViewModel.ImageUrl = await createViewModel.ImageFile.GenerateFileAsync(path);
+        createViewModel.ImageUrl = await _cloudinaryService.ImageCreateAsync(createViewModel.ImageFile);
 
         return await base.CreateAsync(createViewModel);
     }
@@ -62,17 +59,69 @@ public class CategoryManager : CrudManager<Category, CategoryViewModel, Category
 
         if (foundCategory == null) throw new Exception("Category not found");
 
-        if(updateViewModel.ImageFile != null)
+        if (updateViewModel.ImageFile != null)
         {
-            foundCategory.ImageUrl.DeleteFile(path);
-
-            foundCategory.ImageUrl = await updateViewModel.ImageFile.GenerateFileAsync(path);
+            foundCategory.ImageUrl = await _cloudinaryService.ImageCreateAsync(updateViewModel.ImageFile);
         }
 
-        foundCategory = _mapper.Map(updateViewModel,foundCategory);
+        foundCategory = _mapper.Map(updateViewModel, foundCategory);
 
-       var updatedVm = await _categoryRepository.UpdateAsync(foundCategory);
+        var updatedVm = await _categoryRepository.UpdateAsync(foundCategory);
 
         return _mapper.Map<CategoryViewModel>(updatedVm);
+    }
+
+
+    public override async Task<CategoryViewModel> RemoveAsync(int id)
+    {
+        var category = await _categoryRepository.GetAsync(id);
+
+        await _cloudinaryService.FileDeleteAsync(category.ImageUrl);
+
+        var subCategories = await GetSubCategories(id);
+
+        if (subCategories != null)
+        {
+
+            var subCatVms = _mapper.Map<List<Category>>(subCategories);
+
+            foreach (var subCategory in subCatVms)
+            {
+                await _categoryRepository.RemoveAsync(subCategory);
+            }
+
+        }
+
+        var deletedCategory = await _categoryRepository.RemoveAsync(category);
+
+        return _mapper.Map<CategoryViewModel>(deletedCategory);
+    }
+
+    public async Task<CategoryViewModel> RemoveAndNullifyChildrenAsync(int id)
+    {
+
+        var category = await _categoryRepository.GetAsync(id);
+
+        await _cloudinaryService.FileDeleteAsync(category.ImageUrl);
+
+        var subCategories = await GetSubCategories(id);
+
+        if (subCategories != null)
+        {
+
+            var subCatVms = _mapper.Map<List<Category>>(subCategories);
+
+            foreach (var subCategory in subCatVms)
+            {
+                subCategory.ParentCategoryId = null;
+
+                await _categoryRepository.UpdateAsync(subCategory);
+            }
+
+        }
+
+        var deletedCategory = await _categoryRepository.RemoveAsync(category);
+
+        return _mapper.Map<CategoryViewModel>(deletedCategory);
     }
 }

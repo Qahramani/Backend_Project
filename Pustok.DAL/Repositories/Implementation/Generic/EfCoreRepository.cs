@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Query;
 using Pustok.DAL.DataContext;
 using Pustok.DAL.Paging;
-using Pustok.DAL.Repositories.Abstraction.Generic;
 using System.Linq.Expressions;
 
 namespace Pustok.DAL.Repositories.Implementation.Generic;
@@ -83,7 +82,7 @@ public class EfCoreRepository<T> : IRepository<T> where T : BaseEntity
         return entityEntry.Entity;
     }
 
-    public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>> predicate, Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null)
+    public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? predicate = null, Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null)
     {
 
         IQueryable<T> query = _dbContext.Set<T>();
@@ -91,8 +90,8 @@ public class EfCoreRepository<T> : IRepository<T> where T : BaseEntity
         if (include != null) query = include(query);
 
         if (orderBy != null) query = orderBy(query);
-
-        query = query.Where(predicate);
+        
+        if(predicate != null) query = query.Where(predicate);
 
         return await query.ToListAsync();
     }

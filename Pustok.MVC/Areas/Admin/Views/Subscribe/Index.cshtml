@@ -1,0 +1,49 @@
+﻿@model List<SubscribeViewModel>
+
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Subscribers</h4>
+            <p class="card-description">
+                <a asp-action="Create" class="btn btn-success">Create</a>
+            </p>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Email</th>
+                            <th>Is Active</th>
+                            <th>Action</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model ?? new())
+                        {
+                            <tr>
+                                <td>@item.Id</td>
+                                <td>@item.Email</td>
+                                <td>
+                                    @if (@item.IsActive)
+                                    {
+                                        <span class="text-success">Active</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-danger">Inactive</span>
+                                    }
+                                </td>
+                                <td>
+                                    <a class="btn btn-warning" asp-controller="subscribe" asp-action="update" asp-route-id="@item.Id">Update</a>
+                                    <a class="btn btn-danger" asp-controller="subscribe" asp-action="delete" asp-route-id="@item.Id">Delete</a>
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

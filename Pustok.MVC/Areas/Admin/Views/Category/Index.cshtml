@@ -23,7 +23,7 @@
                         {
                             <tr>
                                 <td>@item.Id</td>
-                                <td><img src="~/image/category/@item.ImageUrl"></td>
+                                <td><img src="@item.ImageUrl"></td>
                                 <td>@item.Name</td>
                                 <td>
                                     <a class="btn btn-secondary" asp-controller="category" asp-action="details" asp-route-id="@item.Id">Details</a>

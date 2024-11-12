@@ -1,6 +1,9 @@
-﻿using FluentValidation;
+﻿using CloudinaryDotNet;
+using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
+using Pustok.BLL.Helpers;
+using Pustok.BLL.Helpers.Contracts;
 using Pustok.BLL.Services.Abstraction;
 using Pustok.BLL.Services.Implementation;
 using Pustok.BLL.Services.Implementation.Generic;
@@ -17,22 +20,21 @@ public static class BusinessLayerRegistration
 
         services.AddScoped(typeof(ICrudService<,,,,>), typeof(CrudManager<,,,,>));
         services.AddScoped<ICategoryService, CategoryManager>();
+        //services.AddScoped<IProductService, ProductManager>();
+        services.AddScoped<ITagService, TagManager>();
+        services.AddScoped<IServiceService, ServiceManager>();
+        services.AddScoped<ISettingService, SettingManager>();
+        services.AddScoped<ISubscribeService, SubscribeManager>();
 
-        //services.AddFluentValidation(fv =>
-        //{
-        //    fv.RegisterValidatorsFromAssemblyContaining<CategoryPostViewModelValidator>();
-        //    fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
-        //});
+        services.AddScoped<ICloudinaryService, CloudinaryManager>();
 
+      
         services
              .AddFluentValidationAutoValidation()
              .AddFluentValidationClientsideAdapters()
-             .AddValidatorsFromAssemblyContaining<CategoryPostViewModelValidator>();
+             .AddValidatorsFromAssemblyContaining<CategoryCreateViewModelValidator>();
 
-        //services.AddFluentValidationAutoValidation()
-        //        .AddFluentValidationClientsideAdapters()
-        //        .AddValidatorsFromAssemblyContaining<CategoryPostViewModelValidator>();
-
+      
         return services;
     }
 }

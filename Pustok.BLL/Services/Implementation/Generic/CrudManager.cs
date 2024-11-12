@@ -39,7 +39,7 @@ public class CrudManager<TEntity, TViewModel, TListViewModel, TCreateViewModel, 
 
         return viewModel;
     }
-    public async Task<TListViewModel> GetPagesAsync(Expression<Func<TEntity, bool>>? predicate = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null, int index = 0, int size = 10, bool enableTracking = true)
+    public virtual async Task<TListViewModel> GetPagesAsync(Expression<Func<TEntity, bool>>? predicate = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null, int index = 0, int size = 10, bool enableTracking = true)
     {
         var entityList = await _repository.GetPagesAsync(predicate, orderBy, include, index, size, enableTracking);
 
@@ -83,7 +83,7 @@ public class CrudManager<TEntity, TViewModel, TListViewModel, TCreateViewModel, 
         return viewModel;
     }
 
-    public async Task<List<TViewModel>> GetAllAsync(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null)
+    public virtual async Task<List<TViewModel>> GetAllAsync(Expression<Func<TEntity, bool>>? predicate = null, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null)
     {
         var list = await _repository.GetAllAsync(predicate, include, orderBy);
 

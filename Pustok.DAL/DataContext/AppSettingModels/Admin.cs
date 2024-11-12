@@ -2,8 +2,8 @@
 
 public class Admin
 {
-    public required string Username { get; set; }
-    public required string Fullname { get; set; }
-    public required string Password { get; set; }
-    public required string Email { get; set; }
+    public string Username { get; set; } = null!;
+    public string Fullname { get; set; } = null!;
+    public string Password { get; set; } = null!;
+    public string Email { get; set; } = null!;
 }

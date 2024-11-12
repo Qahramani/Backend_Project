@@ -14,7 +14,7 @@ public class CategoryViewModel : IViewModel
     public List<ProductViewModel> Products { get; set; } = [];
 }
 
-public class CategoryPostViewModel : IViewModel
+public class CategoryCreateViewModel : IViewModel
 {
     public string? ImageUrl { get; set; }
     public IFormFile ImageFile { get; set; } = null!;

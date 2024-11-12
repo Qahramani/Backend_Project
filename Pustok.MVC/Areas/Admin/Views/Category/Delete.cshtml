@@ -1,0 +1,33 @@
+﻿@model CategoryViewModel
+
+<div class="container mt-4">
+    <h2>Delete Category</h2>
+    <p>Are you sure you want to delete the category <strong>@Model.Name</strong>?</p>
+    <p>This category has subcategories. Please choose one of the following options:</p>
+
+    <form asp-action="delete" method="post">
+        <input type="hidden" name="id" value="@Model.Id" />
+
+        <div class="mb-3">
+            <button type="submit" class="btn btn-danger" name="deleteOption" value="deleteWithSubcategories">
+                Delete Category and All Subcategories
+            </button>
+            <small class="form-text text-muted">
+                This option will delete the category and all its associated subcategories permanently.
+            </small>
+        </div>
+
+        <div class="mb-3">
+            <button type="submit" class="btn btn-warning" name="deleteOption" value="deleteAndOrphanSubcategories">
+                Delete Category and Keep Subcategories
+            </button>
+            <small class="form-text text-muted">
+                This option will delete the category, but will keep the subcategories and remove their parent link.
+            </small>
+        </div>
+
+        <div>
+            <a asp-action="index" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>

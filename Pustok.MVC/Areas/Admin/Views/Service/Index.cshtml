@@ -1,0 +1,27 @@
+﻿@model List<ServiceViewModel>
+<div class="container">
+    <div class="column">
+        <p class="card-description">
+            <a asp-action="Create" class="btn btn-success" style="margin:15px">Create</a>
+        </p>
+        @foreach (var item in Model ?? new())
+        {
+
+            <div class="col-xl-6 col-md-12 mt--30" style="display:flex;justify-content:space-between;margin-top:15px;">
+                <div class="feature-box h-100" style="border:1px solid green;width:170px">
+                    <div class="icon">
+                        <i class="fas fa-shipping-fast"></i>
+                    </div>
+                    <div class="text" style="padding:10px">
+                        <h5>@item.MainText</h5>
+                        <p> @item.SubText</p>
+                    </div>
+                </div>
+                <div style="margin-top:15px">
+                <a class="btn btn-warning" asp-controller="service" asp-action="update" asp-route-id="@item.Id">Update</a>
+                    <a class="btn btn-danger" asp-controller="service" asp-action="delete" asp-route-id="@item.Id">Delete</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>

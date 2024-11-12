@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace Pustok.BLL.Helpers;
 
-public static class FileService
+public static class FileManager
 {
     public static async Task<string> GenerateFileAsync(this IFormFile file, string filePath)
     {

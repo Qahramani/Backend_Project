@@ -9,7 +9,7 @@
                     <h3 class="card-title">@Model.Name</h3>
                     @if (!string.IsNullOrEmpty(Model.ImageUrl))
                     {
-                        <img src="~/image/category/@Model.ImageUrl" class="img-fluid rounded mb-3" alt="@Model.Name" />
+                        <img src="@Model.ImageUrl" class="img-fluid rounded mb-3" alt="@Model.Name" />
                     }
                     <p class="card-text">This is the category detail page for <strong>@Model.Name</strong>.</p>
 

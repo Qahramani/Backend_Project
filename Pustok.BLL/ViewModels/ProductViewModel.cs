@@ -23,7 +23,7 @@ public class ProductViewModel : IViewModel
     public List<ProductImageViewModel> Images { get; set; } = [];
     public List<ProductTagViewModel> ProductTags { get; set; } = [];
 }
-public class ProductPostViewModel : IViewModel
+public class ProductCreateViewModel : IViewModel
 {
     public required string Name { get; set; }
     public required string Description { get; set; }

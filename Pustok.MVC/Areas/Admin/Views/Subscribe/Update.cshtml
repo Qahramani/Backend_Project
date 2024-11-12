@@ -1,0 +1,28 @@
+﻿@model SubscribeUpdateViewModel
+<div class="col-md-6 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <p class="card-description">
+                Update Subscriber
+            </p>
+            <form method="post" class="forms-sample" enctype="multipart/form-data">
+
+                <div class="form-group">
+                    <label for="exampleInputUsername1">Email</label>
+                    <input class="form-control" id="input1" asp-for="Email" placeholder="Email">
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-check">
+                        <input asp-for="IsActive" class="form-check-input" />
+                        <label asp-for="IsActive" class="form-check-label">Is Active</label>
+                    </div>
+                    <small class="form-text text-muted">Check this box to activate the subscription.</small>
+                </div>
+                <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                <button class="btn btn-light" asp-action="index">Cancel</button>
+            </form>
+        </div>
+    </div>
+</div>

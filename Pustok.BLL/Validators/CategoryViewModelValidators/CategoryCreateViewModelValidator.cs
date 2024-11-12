@@ -3,9 +3,9 @@ using FluentValidation.AspNetCore;
 
 namespace Pustok.BLL.Validators.CategoryViewModelValidators;
 
-public class CategoryPostViewModelValidator : AbstractValidator<CategoryPostViewModel>
+public class CategoryCreateViewModelValidator : AbstractValidator<CategoryCreateViewModel>
 {
-    public CategoryPostViewModelValidator()
+    public CategoryCreateViewModelValidator()
     {
         RuleFor(x => x.Name).NotNull().MaximumLength(256);
         RuleFor(x => x.ImageFile).SetValidator(new FileValidator());
