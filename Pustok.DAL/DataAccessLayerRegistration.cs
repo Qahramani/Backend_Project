@@ -4,6 +4,7 @@ using Pustok.DAL.DataContext;
 using Microsoft.AspNetCore.Identity;
 using Pustok.DAL.Repositories.Abstraction;
 using Pustok.DAL.Repositories.Implementation;
+using Pustok.DAL.Repositories.Implementation.Generic;
 
 namespace Pustok.DAL;
 
@@ -30,6 +31,8 @@ public static class DataAccessLayerRegistration
             options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
 
         }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+
+        services.AddScoped(typeof(IRepository<>),typeof(EfCoreRepository<>));
 
         services.AddScoped<IBasketItemRepository, BasketItemManager>();
         services.AddScoped<ICategoryRepository, CategoryManager>();

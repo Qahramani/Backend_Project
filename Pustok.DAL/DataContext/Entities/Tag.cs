@@ -1,6 +1,4 @@
-﻿using Pustok.DAL.DataContext.Entities.Common;
-
-namespace Pustok.DAL.DataContext.Entities;
+﻿namespace Pustok.DAL.DataContext.Entities;
 
 public class Tag : BaseEntity
 {

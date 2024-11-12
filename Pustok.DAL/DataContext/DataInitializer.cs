@@ -44,26 +44,26 @@ public class DataInitializer
 
     private async Task createSuperAdminAsync()
     {
-        var superAdmin = _configuration.GetSection("SuperAdmin").Get<SuperAdmin>();
+        var admin = _configuration.GetSection("SuperAdmin").Get<Admin>();
 
-        if (superAdmin == null) return;
+        if (admin == null) return;
 
-        var existSuperAdmin = await _userManager.FindByNameAsync(superAdmin.Username);
+        var existSuperAdmin = await _userManager.FindByNameAsync(admin.Username);
         if (existSuperAdmin != null) return;
 
-        var superAdminUser = new AppUser
+        var userAdmin = new AppUser
         { 
-            Fullname = superAdmin.Fullname,
-            UserName = superAdmin.Username,
-            Email = superAdmin.Email
+            Fullname = admin.Fullname,
+            UserName = admin.Username,
+            Email = admin.Email
         };
 
-        var result = await _userManager.CreateAsync(superAdminUser,superAdmin.Password);
+        var result = await _userManager.CreateAsync(userAdmin,admin.Password);
 
         if (!result.Succeeded)
             throw new Exception("User is not created");
 
-        result = await _userManager.AddToRolesAsync(superAdminUser,[RoleType.SuperAdmin.ToString(),RoleType.Admin.ToString()]);
+        result = await _userManager.AddToRoleAsync(userAdmin,RoleType.Admin.ToString());
 
         if (!result.Succeeded) 
             throw new Exception("User can't assigned");

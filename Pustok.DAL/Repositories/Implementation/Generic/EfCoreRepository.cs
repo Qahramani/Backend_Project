@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Query;
 using Pustok.DAL.DataContext;
+using Pustok.DAL.Paging;
 using Pustok.DAL.Repositories.Abstraction.Generic;
 using System.Linq.Expressions;
 
@@ -37,19 +38,22 @@ public class EfCoreRepository<T> : IRepository<T> where T : BaseEntity
         return await query.FirstOrDefaultAsync();
     }
 
-    public virtual async Task<IEnumerable<T>> GetListAsync(Expression<Func<T, bool>>? predicate = null,
-                                                           Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null,
-                                                           Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null)
+    public virtual async Task<Paginate<T>> GetPagesAsync(Expression<Func<T, bool>>? predicate = null,
+                                                     Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
+                                                     Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null,
+                                                     int index = 0, int size = 10, bool enableTracking = true)
     {
-        IQueryable<T> query = _dbContext.Set<T>();
+        IQueryable<T> queryable = _dbContext.Set<T>();
 
-        if (include != null) query = include(query);
+        if (!enableTracking) queryable = queryable.AsNoTracking();
 
-        if (orderBy != null) query = orderBy(query);
+        if (include != null) queryable = include(queryable);
 
-        if (predicate != null) query = query.Where(predicate);
+        if (predicate != null) queryable = queryable.Where(predicate);
 
-        return await query.ToListAsync();
+        if (orderBy != null) queryable = orderBy(queryable);
+
+        return await queryable.ToPaginateAsync(index, size);
     }
 
     public virtual async Task<T> CreateAsync(T entity)
@@ -77,5 +81,19 @@ public class EfCoreRepository<T> : IRepository<T> where T : BaseEntity
         await _dbContext.SaveChangesAsync();
 
         return entityEntry.Entity;
+    }
+
+    public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>> predicate, Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null)
+    {
+
+        IQueryable<T> query = _dbContext.Set<T>();
+
+        if (include != null) query = include(query);
+
+        if (orderBy != null) query = orderBy(query);
+
+        query = query.Where(predicate);
+
+        return await query.ToListAsync();
     }
 }

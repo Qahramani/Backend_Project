@@ -1,3 +1,6 @@
+using FluentValidation.AspNetCore;
+using FluentValidation;
+using Pustok.BLL;
 using Pustok.DAL;
 using Pustok.DAL.DataContext;
 
@@ -7,6 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDalServices(builder.Configuration);
+builder.Services.AddBllServices();
+
 
 var app = builder.Build();
 
@@ -30,6 +35,15 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+      name: "areas",
+      pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}"
+    );
+});
+
 
 app.MapControllerRoute(
     name: "default",
