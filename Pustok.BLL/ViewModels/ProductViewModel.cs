@@ -25,10 +25,10 @@ public class ProductViewModel : IViewModel
 }
 public class ProductCreateViewModel : IViewModel
 {
-    public required string Name { get; set; }
-    public required string Description { get; set; }
-    public required string ProductCode { get; set; }
-    public required string Brand { get; set; }
+    public string? Name { get; set; }
+    public string? Description { get; set; }
+    public string? ProductCode { get; set; }
+    public string? Brand { get; set; }
     public string? Color { get; set; }
     public decimal OriginalPrice { get; set; }
     public decimal DiscountPrice { get; set; }
@@ -37,12 +37,12 @@ public class ProductCreateViewModel : IViewModel
     public int StockQuantity { get; set; }
     //public int Rating { get; set; }
     public int RewardPoint { get; set; }
-
-    public List<SelectListItem>? Categories { get; set; }
-    public List<int>? CategoryIds { get; set; }
+    public int CategoryId { get; set; }
+    public List<CategoryViewModel>? Categories { get; set; }
+    //public List<int>? CategoryIds { get; set; }
     public List<IFormFile>? Images { get; set; } = [];
-    public List<SelectListItem> ProductTags { get; set; } = [];
-    public List<int> ProductTagsIds { get; set; } = [];
+    public List<TagViewModel> ProductTags { get; set; } = [];
+    //public List<int> ProductTagsIds { get; set; } = [];
 }
 public class ProductUpdateViewModel : IViewModel
 {

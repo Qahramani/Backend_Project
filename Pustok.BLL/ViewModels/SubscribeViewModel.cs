@@ -20,6 +20,6 @@ public class SubscribeUpdateViewModel : IViewModel
 
 public class SubscribeListViewModel : PageableViewModel, IViewModel
 {
-    public List<SettingViewModel> Items { get; set; } = [];
+    public List<SubscribeViewModel> Items { get; set; } = [];
 }
 

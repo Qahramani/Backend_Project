@@ -17,9 +17,9 @@ public class SubscribeController : Controller
         _mapper = mapper;
     }
 
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(int page = 0)
     {
-        var subscribes = await _subscribeService.GetAllAsync();
+        var subscribes = await _subscribeService.GetPagesAsync(index : page,size:2);
 
         return View(subscribes);
     }

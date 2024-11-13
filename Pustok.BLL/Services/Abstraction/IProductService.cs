@@ -2,4 +2,5 @@
 
 public interface IProductService : ICrudService<Product, ProductViewModel, ProductListViewModel, ProductCreateViewModel, ProductUpdateViewModel>
 {
+    Task<ProductCreateViewModel> GetProductCreateViewModelAsync();
 }

@@ -8,7 +8,7 @@ public static class IQueryablePaginateExtensions
     {
 
         int count = await source.CountAsync();
-        List<T> items = await source.Skip(index).Take(size).ToListAsync();
+        List<T> items = await source.Skip(index * size).Take(size).ToListAsync();
 
         Paginate<T> list = new()
         {
