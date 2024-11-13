@@ -1,4 +1,4 @@
-﻿@model ProductCreateViewModel
+﻿@model ProductUpdateViewModel
 <div class="col-md-6 grid-margin stretch-card">
     <div class="card">
         <div class="card-body">
@@ -65,26 +65,34 @@
                 <div class="form-group">
                     <label asp-for="CategoryId">Categories</label>
                     <select asp-for="CategoryId" class="form-control">
-                        <option value="@null" selected>Choose Category</option>
+                        @* <option value="@null">Choose Category</option> *@
                         @foreach (var category in Model.Categories ?? new())
                         {
-                            <option value="@category.Id">@category.Name</option>
+                            if (category.Id == Model.CategoryId)
+                            {
+                                <option value="@category.Id" selected>@category.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@category.Id">@category.Name</option>
+                            }
                         }
                     </select>
                     <span asp-validation-for="CategoryId" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
-                    <label>Select Tag(s)</label>
-                    <select asp-items="Model.Tags" asp-for="SelectedTagIds" class="form-control" placeholder="tags" multiple="multiple"></select>
-                    <span asp-validation-for="SelectedTagIds"></span>
+                    <label for="tags">Select Tag(s)</label>
+                    <select asp-for="SelectedTagsIds" asp-items="Model.AllProductTags" class="form-control" multiple="multiple">
+                    </select>
+                    <span asp-validation-for="SelectedTagsIds" class="text-danger"></span>
                 </div>
 
 
-                <div class="form-group">
-                <label for="exampleInputUsername1">Image</label>
-                <input class="form-control" id="input1" asp-for="MainImage" placeholder="main">
-                <span asp-validation-for="MainImage" class="text-danger"></span>
+               @*  <div class="form-group">
+                    <label for="exampleInputUsername1">Image</label>
+                    <input class="form-control" id="input1" asp-for="MainImage" placeholder="main">
+                    <span asp-validation-for="MainImage" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
@@ -92,7 +100,7 @@
                     <input class="form-control" id="input1" asp-for="SecondaryImages" placeholder="secondary">
                     <span asp-validation-for="SecondaryImages" class="text-danger"></span>
                 </div>
-
+ *@
 
                 <button type="submit" class="btn btn-primary mr-2">Submit</button>
                 <button class="btn btn-light" asp-action="index">Cancel</button>

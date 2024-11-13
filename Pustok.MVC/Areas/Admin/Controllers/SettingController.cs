@@ -57,6 +57,7 @@ public class SettingController : Controller
 
         return RedirectToAction(nameof(Index));
     }
+
     public async Task<IActionResult> Delete(int id)
     {
         await _settingService.RemoveAsync(id);

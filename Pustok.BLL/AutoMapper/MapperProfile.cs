@@ -13,6 +13,13 @@ public class MapperProfile : Profile
         CreateMap<Product,ProductUpdateViewModel>().ReverseMap();
         CreateMap<Paginate<Product>, ProductListViewModel>().ReverseMap();
 
+        CreateMap<ProductImage, ProductImageViewModel>().ReverseMap();
+        CreateMap<ProductImage, ProductImageCreateViewModel>().ReverseMap();
+        CreateMap<ProductImage, ProductImageUpdateViewModel>().ReverseMap();
+        CreateMap<Paginate<ProductImage>, ProductImageListViewModel>().ReverseMap();
+
+        CreateMap<ProductTag, ProductTagViewModel>().ReverseMap();
+
         CreateMap<Category,CategoryViewModel>().ReverseMap();
         CreateMap<Category,CategoryCreateViewModel>().ReverseMap();
         CreateMap<Category,CategoryUpdateViewModel>().ReverseMap();

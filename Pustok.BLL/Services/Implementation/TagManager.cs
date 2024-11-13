@@ -10,3 +10,4 @@ public class TagManager : CrudManager<Tag, TagViewModel, TagListViewModel, TagCr
     {
     }
 }
+

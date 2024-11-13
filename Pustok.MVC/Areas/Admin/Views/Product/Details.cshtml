@@ -1,0 +1,96 @@
+﻿@model ProductViewModel
+
+<div class="container mt-4">
+    <h2 class="mb-3">Product Details</h2>
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <!-- Image Section -->
+                <div class="col-md-4">
+                    @if (Model.Images.FirstOrDefault(x => x.IsMain) != null)
+                    {
+                        <img src="@Model.Images.FirstOrDefault(x => x.IsMain)?.ImageUrl" class="img-fluid img-thumbnail" alt="Product Image" />
+                    }
+                    else
+                    {
+                        <img src="/images/no-image-available.png" class="img-fluid img-thumbnail" alt="No Image Available" />
+                    }
+                </div>
+
+                <!-- Product Details Section -->
+                <div class="col-md-8">
+                    <!-- Product Name and Description -->
+
+                    <p>@Model.Id</p>
+                    <h4>@Model.Name</h4>
+                    <p>@Model.Description</p>
+
+                    <!-- Product Code and Brand -->
+                    <div class="mb-3">
+                        <strong>Product Code:</strong> @Model.ProductCode<br />
+                        <strong>Brand:</strong> @Model.Brand
+                    </div>
+
+                    <!-- Pricing Information -->
+                    <div class="mb-3">
+                        <strong>Original Price:</strong> $@Model.OriginalPrice<br />
+                        <strong>Discount Price:</strong> $@Model.DiscountPrice<br />
+                        <strong>Tax:</strong> $@Model.Tax<br />
+                        <strong>Final Price:</strong> $@(Model.OriginalPrice - Model.DiscountPrice + Model.Tax)
+                    </div>
+
+                    <!-- Stock Information -->
+                    <div class="mb-3">
+                        <strong>In Stock:</strong> @(Model.InStock ? "Yes" : "No")<br />
+                        <strong>Stock Quantity:</strong> @Model.StockQuantity
+                    </div>
+
+                    <!-- Rating and Reward Points -->
+                    <div class="mb-3">
+                        <strong>Rating:</strong> @Model.Rating / 5<br />
+                        <strong>Reward Points:</strong> @Model.RewardPoint
+                    </div>
+
+                    <!-- Category Information -->
+                    <div class="mb-3">
+                        <strong>Category:</strong> @Model.Category?.Name ?? "Uncategorized"
+                    </div>
+
+                    <!-- Color and Tags -->
+                    <div class="mb-3">
+                        <strong>Color:</strong>@(Model.Color ?? "N/A")<br />
+                        <strong>Tags:</strong>
+                        @if (Model.ProductTags.Any())
+                        {
+                            <ul class="list-inline">
+                                @foreach (var tag in Model.ProductTags)
+                                {
+                                    <li class="list-inline-item badge bg-secondary">@tag.Tag?.Link</li>
+                                }
+                            </ul>
+                        }
+                        else
+                        {
+                            <span>No Tags</span>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Additional Images Section -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <h5>Additional Images</h5>
+                <div class="d-flex flex-wrap">
+                    @{
+                        List<ProductImageViewModel> additionalImages = Model.Images.Where(x => x.IsSecondary).ToList();
+                    }
+                    @foreach (var image in additionalImages ?? new())
+                    {
+                        <img src="@image.ImageUrl" class="img-thumbnail m-2" style="width: 100px; height: auto;" alt="Additional Product Image" />
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

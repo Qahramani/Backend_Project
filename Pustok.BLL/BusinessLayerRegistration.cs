@@ -22,6 +22,7 @@ public static class BusinessLayerRegistration
         services.AddScoped<ICategoryService, CategoryManager>();
         services.AddScoped<IProductService, ProductManager>();
         services.AddScoped<ITagService, TagManager>();
+        services.AddScoped<IProductTagService, ProductTagManager>();
         services.AddScoped<IServiceService, ServiceManager>();
         services.AddScoped<ISettingService, SettingManager>();
         services.AddScoped<ISubscribeService, SubscribeManager>();
