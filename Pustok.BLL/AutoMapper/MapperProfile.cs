@@ -42,6 +42,11 @@ public class MapperProfile : Profile
         CreateMap<SettingViewModel, SettingUpdateViewModel>().ReverseMap();
         CreateMap<Paginate<Setting>, SettingListViewModel>().ReverseMap();
 
+        CreateMap<Slider, SliderViewModel>().ReverseMap();
+        CreateMap<Slider, SliderCreateViewModel>().ReverseMap();
+        CreateMap<Slider, SliderUpdateViewModel>().ReverseMap();
+        CreateMap<Paginate<Slider>, SliderListViewModel>().ReverseMap();
+
         CreateMap<Subscribe, SubscribeViewModel>().ReverseMap();
         CreateMap<Subscribe, SubscribeCreateViewModel>().ReverseMap();
         CreateMap<Subscribe, SubscribeUpdateViewModel>().ReverseMap();

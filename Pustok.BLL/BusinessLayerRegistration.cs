@@ -26,6 +26,7 @@ public static class BusinessLayerRegistration
         services.AddScoped<IServiceService, ServiceManager>();
         services.AddScoped<ISettingService, SettingManager>();
         services.AddScoped<ISubscribeService, SubscribeManager>();
+        services.AddScoped<ISliderService, SliderManager>();
 
         services.AddScoped<ICloudinaryService, CloudinaryManager>();
 

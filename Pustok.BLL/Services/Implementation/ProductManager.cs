@@ -52,17 +52,6 @@ public class ProductManager : CrudManager<Product, ProductViewModel, ProductList
 
         var product = await _productRepository.GetAsync(x => x.Id == id, x => x.Include(x => x.Images).Include(x => x.ProductTags).ThenInclude(x => x.Tag!));
 
-        //var oldTagsItemsList = new List<SelectListItem>();
-
-        //foreach (var productTag in product!.ProductTags)
-        //{
-        //    oldTagsItemsList.Add(new SelectListItem
-        //    {
-        //        Text = productTag.Tag?.Link,
-        //        Value = productTag.Tag?.Id.ToString()
-        //    });
-        //}
-
         var tags = await _tagService.GetAllAsync();
         var tagsSelectListItem = new List<SelectListItem>();
 
@@ -76,7 +65,6 @@ public class ProductManager : CrudManager<Product, ProductViewModel, ProductList
 
         }
         var updateViewModel = _mapper.Map<ProductUpdateViewModel>(product);
-        //updateViewModel.OldProductTags = oldTagsItemsList;
         updateViewModel.AllProductTags = tagsSelectListItem;
         updateViewModel.Categories = categories;
         updateViewModel.SelectedTagsIds = product!.ProductTags.Select(pt => pt.TagId).ToList();
@@ -88,7 +76,7 @@ public class ProductManager : CrudManager<Product, ProductViewModel, ProductList
     {
         var oldTagsVm = await _productTagService.GetAllAsync(x => x.ProductId == updateViewModel.Id);
 
-        //burda producta aid olan butun taglari pozuruq
+        //burda producta aid olan butun taglari pozdum
         foreach (var prodTag in oldTagsVm)
         {
             var foundTagVm = await _productTagService.GetAsync(prodTag.Id);

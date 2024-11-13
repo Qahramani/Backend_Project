@@ -8,6 +8,6 @@ public class CategoryCreateViewModelValidator : AbstractValidator<CategoryCreate
     public CategoryCreateViewModelValidator()
     {
         RuleFor(x => x.Name).NotNull().MaximumLength(256);
-        RuleFor(x => x.ImageFile).SetValidator(new FileValidator());
+        RuleFor(x => x.ImageFile).NotEmpty().SetValidator(new FileValidator());
     }
 }
