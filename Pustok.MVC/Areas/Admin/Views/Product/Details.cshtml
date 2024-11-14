@@ -53,7 +53,7 @@
 
                     <!-- Category Information -->
                     <div class="mb-3">
-                        <strong>Category:</strong> @Model.Category?.Name ?? "Uncategorized"
+                        <strong>Category:</strong> @(Model.Category?.Name ?? "Uncategorized")
                     </div>
 
                     <!-- Color and Tags -->
@@ -83,7 +83,7 @@
                 <h5>Additional Images</h5>
                 <div class="d-flex flex-wrap">
                     @{
-                        List<ProductImageViewModel> additionalImages = Model.Images.Where(x => x.IsSecondary).ToList();
+                        List<ProductImageViewModel> additionalImages = Model.Images.Where(x => x.IsMain == false && x.IsHover == false).ToList();
                     }
                     @foreach (var image in additionalImages ?? new())
                     {

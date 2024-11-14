@@ -14,7 +14,7 @@ public class CrudManager<TEntity, TViewModel, TListViewModel, TCreateViewModel, 
     where TUpdateViewModel : IViewModel
 {
     private readonly IRepository<TEntity> _repository;
-    private readonly IMapper _mapper;
+    protected readonly IMapper _mapper;
 
     public CrudManager(IRepository<TEntity> repository, IMapper mapper)
     {

@@ -4,9 +4,9 @@ using Pustok.DAL.Repositories.Implementation.Generic;
 
 namespace Pustok.DAL.Repositories.Implementation;
 
-public class SubscribeManager : EfCoreRepository<Subscribe>, ISubscribeRepository
+public class BasketItemRepository : EfCoreRepository<BasketItem>, IBasketItemRepository
 {
-    public SubscribeManager(AppDbContext dbContext) : base(dbContext)
+    public BasketItemRepository(AppDbContext dbContext) : base(dbContext)
     {
     }
 }

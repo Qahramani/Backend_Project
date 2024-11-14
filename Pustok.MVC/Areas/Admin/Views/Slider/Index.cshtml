@@ -1,4 +1,4 @@
-﻿@model CategoryListViewModel
+﻿@model List<SliderViewModel>
 
 <div class="col-lg-12 grid-margin stretch-card">
     <div class="card">
@@ -13,22 +13,24 @@
                         <tr>
                             <th>Id</th>
                             <th>Image</th>
-                            <th>Name</th>
+                            <th>Title</th>
+                            <th>Discount Price</th>
                             <th>Action</th>
 
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model.Items ?? [])
+                        @foreach (var item in Model ?? [])
                         {
-                            <tr>    
+                            <tr>
                                 <td>@item.Id</td>
                                 <td><img src="@item.ImageUrl"></td>
-                                <td>@item.Name</td>
+                                <td>@item.Title</td>
+                                <td>@item.DiscountPrice</td>
                                 <td>
-                                    <a class="btn btn-secondary" asp-controller="category" asp-action="details" asp-route-id="@item.Id">Details</a>
-                                    <a class="btn btn-warning" asp-controller="category" asp-action="update" asp-route-id="@item.Id">Update</a>
-                                    <a class="btn btn-danger" asp-controller="category" asp-action="delete" asp-route-id="@item.Id">Delete</a>
+                                    <a class="btn btn-secondary" asp-controller="slider" asp-action="details" asp-route-id="@item.Id">Details</a>
+                                    <a class="btn btn-warning" asp-controller="slider" asp-action="update" asp-route-id="@item.Id">Update</a>
+                                    <a class="btn btn-danger" asp-controller="slider" asp-action="delete" asp-route-id="@item.Id">Delete</a>
                                 </td>
                             </tr>
                         }

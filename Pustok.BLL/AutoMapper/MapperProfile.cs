@@ -30,11 +30,13 @@ public class MapperProfile : Profile
         CreateMap<Tag,TagCreateViewModel>().ReverseMap();
         CreateMap<Tag,TagUpdateViewModel>().ReverseMap();
         CreateMap<TagViewModel,TagUpdateViewModel>().ReverseMap();
+        CreateMap<Paginate<Tag>, TagListViewModel>().ReverseMap();
 
         CreateMap<Service, ServiceViewModel>().ReverseMap();
         CreateMap<Service, ServiceCreateViewModel>().ReverseMap();
         CreateMap<Service ,ServiceUpdateViewModel>().ReverseMap();
         CreateMap<ServiceViewModel, ServiceUpdateViewModel>().ReverseMap();
+        CreateMap<Paginate<Service>, ServiceListViewModel>().ReverseMap();
 
         CreateMap<Setting, SettingViewModel>().ReverseMap();
         CreateMap<Setting, SettingCreateViewModel>().ReverseMap();
@@ -45,6 +47,7 @@ public class MapperProfile : Profile
         CreateMap<Slider, SliderViewModel>().ReverseMap();
         CreateMap<Slider, SliderCreateViewModel>().ReverseMap();
         CreateMap<Slider, SliderUpdateViewModel>().ReverseMap();
+        CreateMap<SliderViewModel, SliderUpdateViewModel>().ReverseMap();
         CreateMap<Paginate<Slider>, SliderListViewModel>().ReverseMap();
 
         CreateMap<Subscribe, SubscribeViewModel>().ReverseMap();

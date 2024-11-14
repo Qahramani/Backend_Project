@@ -17,13 +17,11 @@ public class ProductManager : CrudManager<Product, ProductViewModel, ProductList
     private readonly ICloudinaryService _cloudinaryService;
     private readonly IProductRepository _productRepository;
     private readonly IProductTagService _productTagService;
-    private readonly IMapper _mapper;
     public ProductManager(IRepository<Product> repository, IMapper mapper, ICategoryService categoryService, ITagService tagService, ICloudinaryService cloudinaryService, IProductRepository productService, IProductRepository productRepository, IProductTagService productTagService) : base(repository, mapper)
     {
         _categoryService = categoryService;
         _tagService = tagService;
         _cloudinaryService = cloudinaryService;
-        _mapper = mapper;
         _productRepository = productRepository;
         _productTagService = productTagService;
     }
@@ -84,7 +82,7 @@ public class ProductManager : CrudManager<Product, ProductViewModel, ProductList
 
             await _productTagService.RemoveAsync(foundTagVm.Id);
         }
-        //hamisin tezeden elave edirik
+        //hamisin tezeden elave edirik (In Sa Allah isleyer)
         foreach (var tagId in updateViewModel.SelectedTagsIds)
         {
             var newTag = new ProductTagCreateViewModel
@@ -117,7 +115,9 @@ public class ProductManager : CrudManager<Product, ProductViewModel, ProductList
 
         var product = _mapper.Map<Product>(createViewModel);
 
-        var mainImagePath = await _cloudinaryService.ImageCreateAsync(createViewModel.MainImage);
+
+        //main image
+        var mainImagePath = await _cloudinaryService.ImageCreateAsync(createViewModel.MainFile);
 
         ProductImage mainImage = new()
         {
@@ -128,19 +128,31 @@ public class ProductManager : CrudManager<Product, ProductViewModel, ProductList
 
         product.Images.Add(mainImage);
 
-        foreach (var image in createViewModel.SecondaryImages ?? new())
-        {
-            var secondaryImagePath = await _cloudinaryService.ImageCreateAsync(image);
+        //hover image
+        var hoverImagePath = await _cloudinaryService.ImageCreateAsync(createViewModel.HoverFile);
 
-            ProductImage secondaryImage = new()
+        ProductImage hoverImage = new()
+        {
+            ImageUrl = mainImagePath,
+            IsHover = true,
+            Product = product
+        };
+
+        product.Images.Add(hoverImage);
+
+        //additional images
+        foreach (var image in createViewModel.AdditionalImages ?? new())
+        {
+            var additionalImagePath = await _cloudinaryService.ImageCreateAsync(image);
+
+            ProductImage additionalImage = new()
             {
-                ImageUrl = secondaryImagePath,
-                IsSecondary = true,
+                ImageUrl = additionalImagePath,
                 Product = product
             };
-            product.Images.Add(secondaryImage);
+            product.Images.Add(additionalImage);
         }
-
+        //adding tag
         foreach (var tagId in createViewModel.SelectedTagIds)
         {
             ProductTag productTag = new()

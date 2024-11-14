@@ -4,9 +4,9 @@ using Pustok.DAL.Repositories.Implementation.Generic;
 
 namespace Pustok.DAL.Repositories.Implementation;
 
-public class ServiceManager : EfCoreRepository<Service>, IServiceRepository
+public class ProductImageRepository : EfCoreRepository<ProductImage>, IProductImageRepository
 {
-    public ServiceManager(AppDbContext dbContext) : base(dbContext)
+    public ProductImageRepository(AppDbContext dbContext) : base(dbContext)
     {
     }
 }

@@ -11,14 +11,12 @@ public class CategoryManager : CrudManager<Category, CategoryViewModel, Category
 {
     private readonly IWebHostEnvironment _webhosEnvironment;
     private readonly ICategoryRepository _categoryRepository;
-    private readonly IMapper _mapper;
     private readonly ICloudinaryService _cloudinaryService;
 
     public CategoryManager(IWebHostEnvironment webhosEnvironment, IRepository<Category> repository, IMapper mapper, ICategoryRepository categoryRepository, ICloudinaryService cloudinaryService) : base(repository, mapper)
     {
         _webhosEnvironment = webhosEnvironment;
         _categoryRepository = categoryRepository;
-        _mapper = mapper;
         _cloudinaryService = cloudinaryService;
     }
     public override async Task<CategoryViewModel> CreateAsync(CategoryCreateViewModel createViewModel)

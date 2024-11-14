@@ -12,7 +12,7 @@ using Pustok.DAL.DataContext;
 namespace Pustok.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241109151324_Init")]
+    [Migration("20241114122025_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -264,13 +264,16 @@ namespace Pustok.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<int?>("ParentCategoryId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -278,6 +281,34 @@ namespace Pustok.DAL.Migrations
                     b.HasIndex("ParentCategoryId");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ImageUrl = "",
+                            Name = "Childer's Books"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ImageUrl = "",
+                            Name = "Literature"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ImageUrl = "",
+                            Name = "Russian Literature",
+                            ParentCategoryId = 2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ImageUrl = "",
+                            Name = "Turkish Literature",
+                            ParentCategoryId = 2
+                        });
                 });
 
             modelBuilder.Entity("Pustok.DAL.DataContext.Entities.Product", b =>
@@ -361,6 +392,26 @@ namespace Pustok.DAL.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Brand = "Canon",
+                            CategoryId = 1,
+                            Color = "qirmizi",
+                            Description = "Long printed dress with thin adjustable straps. V-neckline and wiring under the Dust with ruffles at the bottom of the.",
+                            DiscountPrice = 10.1m,
+                            InStock = false,
+                            IsDeleted = false,
+                            Name = "Beats EP Wired On-Ear Headphone-Black",
+                            OriginalPrice = 12.40m,
+                            ProductCode = "nem",
+                            Rating = 0,
+                            RewardPoint = 10,
+                            StockQuantity = 10,
+                            Tax = 1m
+                        });
                 });
 
             modelBuilder.Entity("Pustok.DAL.DataContext.Entities.ProductImage", b =>
@@ -375,12 +426,12 @@ namespace Pustok.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsMain")
+                    b.Property<bool>("IsHover")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
 
-                    b.Property<bool>("IsSecondary")
+                    b.Property<bool>("IsMain")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
@@ -393,6 +444,32 @@ namespace Pustok.DAL.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductImages");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ImageUrl = "https://res-console.cloudinary.com/dsclrbdnp/media_explorer_thumbnails/0b1b0cdf56beb5528272dcaa91a1085e/detailed",
+                            IsHover = false,
+                            IsMain = true,
+                            ProductId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ImageUrl = "https://res-console.cloudinary.com/dsclrbdnp/media_explorer_thumbnails/38b31592ce1c0c23b8e044ca8f39afcd/detailed",
+                            IsHover = true,
+                            IsMain = false,
+                            ProductId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ImageUrl = "https://res-console.cloudinary.com/dsclrbdnp/media_explorer_thumbnails/23556821f4b0bb559e717d2d224bac32/detailed",
+                            IsHover = false,
+                            IsMain = false,
+                            ProductId = 1
+                        });
                 });
 
             modelBuilder.Entity("Pustok.DAL.DataContext.Entities.ProductTag", b =>
@@ -416,6 +493,20 @@ namespace Pustok.DAL.Migrations
                     b.HasIndex("TagId");
 
                     b.ToTable("ProductTags");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ProductId = 1,
+                            TagId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ProductId = 1,
+                            TagId = 3
+                        });
                 });
 
             modelBuilder.Entity("Pustok.DAL.DataContext.Entities.Service", b =>
@@ -443,6 +534,22 @@ namespace Pustok.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Services");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            IconUrl = "fas fa-shipping-fast",
+                            MainText = "Free Shipping Item",
+                            SubText = "Orders over $500"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            IconUrl = "fas fa-redo-alt",
+                            MainText = "Money Back Guarantee",
+                            SubText = "100% money back"
+                        });
                 });
 
             modelBuilder.Entity("Pustok.DAL.DataContext.Entities.Setting", b =>
@@ -465,7 +572,30 @@ namespace Pustok.DAL.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Key")
+                        .IsUnique();
+
                     b.ToTable("Settings");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Key = "Address",
+                            Value = "Baku / Code Academy"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Key = "Facebook",
+                            Value = "FatimVeliyev"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Key = "Phone",
+                            Value = "+18088 234 5678"
+                        });
                 });
 
             modelBuilder.Entity("Pustok.DAL.DataContext.Entities.Slider", b =>
@@ -503,6 +633,26 @@ namespace Pustok.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Sliders");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Bir var idi bir yox idi bir dene qarisqa var idi",
+                            DiscountPrice = 19.90m,
+                            ImageUrl = "https://res-console.cloudinary.com/dsclrbdnp/media_explorer_thumbnails/c1e28f6f87a43d4849a913702c851413/detailed",
+                            OriginalPrice = 21.50m,
+                            Title = "Qarisqalar Alemi"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "nanananannananan",
+                            DiscountPrice = 10.90m,
+                            ImageUrl = "https://res-console.cloudinary.com/dsclrbdnp/media_explorer_thumbnails/aeac4a238206d8eae3172146f7850b35/detailed",
+                            OriginalPrice = 18.50m,
+                            Title = "victor Hugo"
+                        });
                 });
 
             modelBuilder.Entity("Pustok.DAL.DataContext.Entities.Subscribe", b =>
@@ -526,6 +676,20 @@ namespace Pustok.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Subscribes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "gunel@mail.com",
+                            IsActive = true
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Email = "hello@ru",
+                            IsActive = true
+                        });
                 });
 
             modelBuilder.Entity("Pustok.DAL.DataContext.Entities.Tag", b =>
@@ -543,6 +707,23 @@ namespace Pustok.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Tags");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Link = "tag1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Link = "tag2"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Link = "tag3"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -619,9 +800,7 @@ namespace Pustok.DAL.Migrations
                 {
                     b.HasOne("Pustok.DAL.DataContext.Entities.Category", "ParentCategory")
                         .WithMany("SubCategories")
-                        .HasForeignKey("ParentCategoryId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("ParentCategoryId");
 
                     b.Navigation("ParentCategory");
                 });

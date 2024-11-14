@@ -21,4 +21,10 @@ public class SettingManager : CrudManager<Setting, SettingViewModel, SettingList
 
         return true;
     }
+     public async Task<Dictionary<string, string>> GetLayoutSettingsAsync()
+    {
+        Dictionary<string,string> settings = await _settingRepository.GetLayoutSettingsAsync();
+
+        return settings;
+    }
 }

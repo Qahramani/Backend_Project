@@ -2,5 +2,6 @@
 
 public interface ISettingRepository : IRepository<Setting>
 {
+    Task<Dictionary<string, string>> GetLayoutSettingsAsync();
 }
 

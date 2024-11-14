@@ -1,0 +1,38 @@
+﻿@model SliderViewModel
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Slider Details</h2>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="row">
+                <!-- Image section -->
+                <div class="col-md-4">
+                    <img src="@Model.ImageUrl" alt="@Model.Title" class="img-fluid rounded" style="width: 100%; height: auto;" />
+                </div>
+
+                <!-- Details section -->
+                <div class="col-md-8">
+                    <h4>@Model.Title</h4>
+                    <p class="text-muted">@Model.Description</p>
+
+                    <dl class="row mt-4">
+                        <dt class="col-sm-4">Original Price:</dt>
+                        <dd class="col-sm-8">@Model.OriginalPrice.ToString("C")</dd>
+
+                        <dt class="col-sm-4">Discount Price:</dt>
+                        <dd class="col-sm-8">@Model.DiscountPrice.ToString("C")</dd>
+
+                        <dt class="col-sm-4">Slider ID:</dt>
+                        <dd class="col-sm-8">@Model.Id</dd>
+                    </dl>
+
+                    <a asp-action="index" class="btn btn-primary mt-3">Back to List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Include Bootstrap if not already included -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

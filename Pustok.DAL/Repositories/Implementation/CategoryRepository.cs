@@ -4,9 +4,9 @@ using Pustok.DAL.Repositories.Implementation.Generic;
 
 namespace Pustok.DAL.Repositories.Implementation;
 
-public class SliderManager : EfCoreRepository<Slider>, ISliderRepository
+public class CategoryRepository : EfCoreRepository<Category>, ICategoryRepository
 {
-    public SliderManager(AppDbContext dbContext) : base(dbContext)
+    public CategoryRepository(AppDbContext dbContext) : base(dbContext)
     {
     }
 }

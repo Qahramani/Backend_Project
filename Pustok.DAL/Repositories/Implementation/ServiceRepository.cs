@@ -4,9 +4,9 @@ using Pustok.DAL.Repositories.Implementation.Generic;
 
 namespace Pustok.DAL.Repositories.Implementation;
 
-public class BasketItemManager : EfCoreRepository<BasketItem>, IBasketItemRepository
+public class ServiceRepository : EfCoreRepository<Service>, IServiceRepository
 {
-    public BasketItemManager(AppDbContext dbContext) : base(dbContext)
+    public ServiceRepository(AppDbContext dbContext) : base(dbContext)
     {
     }
 }

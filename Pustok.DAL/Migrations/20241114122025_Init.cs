@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Pustok.DAL.Migrations
 {
     /// <inheritdoc />
@@ -58,7 +60,8 @@ namespace Pustok.DAL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
-                    ParentCategoryId = table.Column<int>(type: "int", nullable: false)
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ParentCategoryId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -67,8 +70,7 @@ namespace Pustok.DAL.Migrations
                         name: "FK_Categories_Categories_ParentCategoryId",
                         column: x => x.ParentCategoryId,
                         principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -317,7 +319,7 @@ namespace Pustok.DAL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsMain = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
-                    IsSecondary = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    IsHover = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     ProductId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -355,6 +357,100 @@ namespace Pustok.DAL.Migrations
                         principalTable: "Tags",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "Id", "ImageUrl", "Name", "ParentCategoryId" },
+                values: new object[,]
+                {
+                    { 1, "", "Childer's Books", null },
+                    { 2, "", "Literature", null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Services",
+                columns: new[] { "Id", "IconUrl", "MainText", "SubText" },
+                values: new object[,]
+                {
+                    { 1, "fas fa-shipping-fast", "Free Shipping Item", "Orders over $500" },
+                    { 2, "fas fa-redo-alt", "Money Back Guarantee", "100% money back" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Settings",
+                columns: new[] { "Id", "Key", "Value" },
+                values: new object[,]
+                {
+                    { 1, "Address", "Baku / Code Academy" },
+                    { 2, "Facebook", "FatimVeliyev" },
+                    { 3, "Phone", "+18088 234 5678" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Sliders",
+                columns: new[] { "Id", "Description", "DiscountPrice", "ImageUrl", "OriginalPrice", "Title" },
+                values: new object[,]
+                {
+                    { 1, "Bir var idi bir yox idi bir dene qarisqa var idi", 19.90m, "https://res-console.cloudinary.com/dsclrbdnp/media_explorer_thumbnails/c1e28f6f87a43d4849a913702c851413/detailed", 21.50m, "Qarisqalar Alemi" },
+                    { 2, "nanananannananan", 10.90m, "https://res-console.cloudinary.com/dsclrbdnp/media_explorer_thumbnails/aeac4a238206d8eae3172146f7850b35/detailed", 18.50m, "victor Hugo" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Subscribes",
+                columns: new[] { "Id", "Email", "IsActive" },
+                values: new object[,]
+                {
+                    { 1, "gunel@mail.com", true },
+                    { 2, "hello@ru", true }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Tags",
+                columns: new[] { "Id", "Link" },
+                values: new object[,]
+                {
+                    { 1, "tag1" },
+                    { 2, "tag2" },
+                    { 3, "tag3" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "Id", "ImageUrl", "Name", "ParentCategoryId" },
+                values: new object[,]
+                {
+                    { 3, "", "Russian Literature", 2 },
+                    { 4, "", "Turkish Literature", 2 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Products",
+                columns: new[] { "Id", "Brand", "CategoryId", "Color", "Description", "DiscountPrice", "Name", "OriginalPrice", "ProductCode", "RewardPoint", "StockQuantity", "Tax" },
+                values: new object[] { 1, "Canon", 1, "qirmizi", "Long printed dress with thin adjustable straps. V-neckline and wiring under the Dust with ruffles at the bottom of the.", 10.1m, "Beats EP Wired On-Ear Headphone-Black", 12.40m, "nem", 10, 10, 1m });
+
+            migrationBuilder.InsertData(
+                table: "ProductImages",
+                columns: new[] { "Id", "ImageUrl", "IsMain", "ProductId" },
+                values: new object[] { 1, "https://res-console.cloudinary.com/dsclrbdnp/media_explorer_thumbnails/0b1b0cdf56beb5528272dcaa91a1085e/detailed", true, 1 });
+
+            migrationBuilder.InsertData(
+                table: "ProductImages",
+                columns: new[] { "Id", "ImageUrl", "IsHover", "ProductId" },
+                values: new object[] { 2, "https://res-console.cloudinary.com/dsclrbdnp/media_explorer_thumbnails/38b31592ce1c0c23b8e044ca8f39afcd/detailed", true, 1 });
+
+            migrationBuilder.InsertData(
+                table: "ProductImages",
+                columns: new[] { "Id", "ImageUrl", "ProductId" },
+                values: new object[] { 3, "https://res-console.cloudinary.com/dsclrbdnp/media_explorer_thumbnails/23556821f4b0bb559e717d2d224bac32/detailed", 1 });
+
+            migrationBuilder.InsertData(
+                table: "ProductTags",
+                columns: new[] { "Id", "ProductId", "TagId" },
+                values: new object[,]
+                {
+                    { 1, 1, 1 },
+                    { 2, 1, 3 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -430,6 +526,12 @@ namespace Pustok.DAL.Migrations
                 name: "IX_ProductTags_TagId",
                 table: "ProductTags",
                 column: "TagId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Settings_Key",
+                table: "Settings",
+                column: "Key",
+                unique: true);
         }
 
         /// <inheritdoc />

@@ -14,6 +14,8 @@ public class AppDbContext : IdentityDbContext<AppUser>
     {
         builder.ApplyConfigurationsFromAssembly(typeof(ProductConfiguration).Assembly);
         base.OnModelCreating(builder);
+
+        SeedData.Seed(builder);
     }
 
     public DbSet<BasketItem> BasketItems { get; set; } = null!;

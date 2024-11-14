@@ -38,8 +38,9 @@ public class ProductCreateViewModel : IViewModel
     public int RewardPoint { get; set; }
     public int CategoryId { get; set; } 
     public List<CategoryViewModel>? Categories { get; set; }
-    public IFormFile MainImage { get; set; }
-    public List<IFormFile> SecondaryImages { get; set; } = [];
+    public IFormFile MainFile { get; set; } = null!;
+    public IFormFile HoverFile { get; set; } = null!;
+    public List<IFormFile> AdditionalImages { get; set; } = [];
     public List<int> SelectedTagIds { get; set; } = [];
     public List<SelectListItem> Tags { get; set; } = [];
 
@@ -60,9 +61,15 @@ public class ProductUpdateViewModel : IViewModel
     public int RewardPoint { get; set; }
     public int CategoryId { get; set; }
     public List<CategoryViewModel>? Categories { get; set; }
-    public List<ProductImage> Images { get; set; } = [];
-    //public List<IFormFile>? NewImages { get; set; } = [];
-    public List<SelectListItem> OldProductTags { get; set; } = [];
+
+    public string? MainImagePath { get; set; }
+    public IFormFile MainImageFile { get; set; }
+    public string? HoverImagePath { get; set; }
+    public IFormFile HovermageFile { get; set; }
+    public List<string> AdditionalImagePaths { get; set; } = [];
+    public List<IFormFile> AdditionalImages { get; set; } = [];
+    public List<int> AdditionalImageIds { get; set; } = [];
+
     public List<int> SelectedTagsIds { get; set; } = [];
     public List<SelectListItem> AllProductTags { get; set; } = [];
     public List<int> TagsIds { get; set; } = [];

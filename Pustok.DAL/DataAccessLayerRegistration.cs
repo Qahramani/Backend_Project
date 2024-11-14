@@ -34,15 +34,15 @@ public static class DataAccessLayerRegistration
 
         services.AddScoped(typeof(IRepository<>),typeof(EfCoreRepository<>));
 
-        services.AddScoped<IBasketItemRepository, BasketItemManager>();
-        services.AddScoped<ICategoryRepository, CategoryManager>();
-        services.AddScoped<IProductRepository, ProductManager>();
-        services.AddScoped<IProductImageRepository, ProductImageManager>();
-        services.AddScoped<IServiceRepository, ServiceManager>();
-        services.AddScoped<ISettingRepository, SettingManager>();
-        services.AddScoped<ISliderRepository, SliderManager>();
-        services.AddScoped<ISubscribeRepository, SubscribeManager>();
-        services.AddScoped<ITagRepository, TagManager>();
+        services.AddScoped<IBasketItemRepository, BasketItemRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<IProductRepository, ProductRepository>();
+        services.AddScoped<IProductImageRepository, ProductImageRepository>();
+        services.AddScoped<IServiceRepository, ServiceRepository>();
+        services.AddScoped<ISettingRepository, SettingRepository>();
+        services.AddScoped<ISliderRepository, SliderRepository>();
+        services.AddScoped<ISubscribeRepository, SubscribeRepository>();
+        services.AddScoped<ITagRepository, TagRepository>();
 
         services.AddScoped<DataInitializer>();
 

@@ -1,0 +1,20 @@
+﻿@model ServiceListViewModel
+<div class="container">
+    <div class="row">
+        @foreach (var service in Model.Items ?? new())
+        {
+            
+        <div class="col-xl-3 col-md-6 mt--30">
+            <div class="feature-box h-100">
+                <div class="icon">
+                    <i class="@service.IconUrl"></i>
+                </div>
+                <div class="text">
+                    <h5>@service.MainText</h5>
+                    <p> @service.SubText</p>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+</div>

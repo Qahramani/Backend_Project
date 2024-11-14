@@ -3,5 +3,5 @@
 public interface ISettingService : ICrudService<Setting, SettingViewModel, SettingListViewModel, SettingCreateViewModel, SettingUpdateViewModel>
 {
     Task<bool> DoesKeyAlreadyExistAsync(string key);
-
+    Task<Dictionary<string, string>> GetLayoutSettingsAsync();
 }

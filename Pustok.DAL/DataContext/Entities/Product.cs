@@ -8,7 +8,7 @@ public class Product : BaseEntity
     public required string Description { get; set; }
     public required string ProductCode { get; set; }
     public required string Brand { get; set; }
-    public string? Color { get; set; }
+    public required string Color { get; set; }
     public decimal OriginalPrice { get; set; }
     public decimal DiscountPrice { get; set; }
     public decimal Tax { get; set; }
@@ -17,7 +17,6 @@ public class Product : BaseEntity
     public int StockQuantity { get; set; }
     public int Rating { get; set; }
     public int RewardPoint { get; set; }
-
     public int CategoryId { get; set; }
     public Category? Category{ get; set; }
     public List<ProductImage> Images { get; set; } = [];

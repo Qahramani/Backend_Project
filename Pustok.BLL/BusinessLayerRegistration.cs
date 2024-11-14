@@ -7,6 +7,8 @@ using Pustok.BLL.Helpers.Contracts;
 using Pustok.BLL.Services.Abstraction;
 using Pustok.BLL.Services.Implementation;
 using Pustok.BLL.Services.Implementation.Generic;
+using Pustok.BLL.UI.Services.Abstraction;
+using Pustok.BLL.UI.Services.Implementation;
 using Pustok.BLL.Validators.CategoryViewModelValidators;
 using System.Reflection;
 
@@ -27,6 +29,10 @@ public static class BusinessLayerRegistration
         services.AddScoped<ISettingService, SettingManager>();
         services.AddScoped<ISubscribeService, SubscribeManager>();
         services.AddScoped<ISliderService, SliderManager>();
+
+        services.AddScoped<IHomeService, HomeManager>();
+        
+
 
         services.AddScoped<ICloudinaryService, CloudinaryManager>();
 

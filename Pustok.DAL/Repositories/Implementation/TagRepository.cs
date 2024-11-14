@@ -4,9 +4,9 @@ using Pustok.DAL.Repositories.Implementation.Generic;
 
 namespace Pustok.DAL.Repositories.Implementation;
 
-public class CategoryManager : EfCoreRepository<Category>, ICategoryRepository
+public class TagRepository : EfCoreRepository<Tag>, ITagRepository
 {
-    public CategoryManager(AppDbContext dbContext) : base(dbContext)
+    public TagRepository(AppDbContext dbContext) : base(dbContext)
     {
     }
 }

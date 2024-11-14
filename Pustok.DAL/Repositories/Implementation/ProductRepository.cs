@@ -4,9 +4,9 @@ using Pustok.DAL.Repositories.Implementation.Generic;
 
 namespace Pustok.DAL.Repositories.Implementation;
 
-public class TagManager : EfCoreRepository<Tag>, ITagRepository
+public class ProductRepository : EfCoreRepository<Product>, IProductRepository
 {
-    public TagManager(AppDbContext dbContext) : base(dbContext)
+    public ProductRepository(AppDbContext dbContext) : base(dbContext)
     {
     }
 }

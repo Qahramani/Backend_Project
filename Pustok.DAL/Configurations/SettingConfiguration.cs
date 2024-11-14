@@ -9,5 +9,7 @@ public class SettingConfiguration : IEntityTypeConfiguration<Setting>
     {
         builder.Property(x => x.Key).IsRequired().HasMaxLength(255);
         builder.Property(x => x.Value).IsRequired().HasMaxLength(255);
+
+        builder.HasIndex(x => x.Key).IsUnique(true);
     }
 }

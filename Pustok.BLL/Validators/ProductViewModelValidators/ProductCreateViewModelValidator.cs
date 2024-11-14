@@ -15,8 +15,9 @@ public class ProductCreateViewModelValidator : AbstractValidator<ProductCreateVi
         RuleFor(x => x.Tax).GreaterThanOrEqualTo(0).WithMessage("Price cannot be negative");
         RuleFor(x => x.RewardPoint).GreaterThanOrEqualTo(0).WithMessage("Cannot be negative");
         RuleFor(x => x.StockQuantity).GreaterThanOrEqualTo(0).WithMessage("Quantity cannot be negative");
-        RuleFor(x => x.MainImage).NotEmpty().SetValidator(new FileValidator());
-        RuleFor(x => x.SecondaryImages).NotEmpty();
-        RuleForEach(x => x.SecondaryImages).SetValidator(new FileValidator());
+        RuleFor(x => x.MainFile).NotEmpty().SetValidator(new FileValidator());
+        RuleFor(x => x.HoverFile).NotEmpty().SetValidator(new FileValidator());
+        RuleFor(x => x.AdditionalImages).NotEmpty();
+        RuleForEach(x => x.AdditionalImages).SetValidator(new FileValidator());
     }
 }

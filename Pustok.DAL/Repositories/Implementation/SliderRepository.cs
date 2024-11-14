@@ -4,9 +4,9 @@ using Pustok.DAL.Repositories.Implementation.Generic;
 
 namespace Pustok.DAL.Repositories.Implementation;
 
-public class SettingManager : EfCoreRepository<Setting>, ISettingRepository
+public class SliderRepository : EfCoreRepository<Slider>, ISliderRepository
 {
-    public SettingManager(AppDbContext dbContext) : base(dbContext)
+    public SliderRepository(AppDbContext dbContext) : base(dbContext)
     {
     }
 }
