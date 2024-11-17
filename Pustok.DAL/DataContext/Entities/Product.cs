@@ -1,4 +1,5 @@
 ﻿using Pustok.DAL.DataContext.Entities.Common;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Pustok.DAL.DataContext.Entities;
 
@@ -22,4 +23,5 @@ public class Product : BaseEntity
     public Category? Category{ get; set; }
     public List<ProductImage> Images { get; set; } = [];
     public List<ProductTag> ProductTags { get; set; } = [];
+    
 }

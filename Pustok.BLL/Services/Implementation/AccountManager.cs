@@ -8,6 +8,7 @@ using Pustok.BLL.Helpers.Contracts;
 using Pustok.BLL.Services.Abstraction;
 using Pustok.BLL.ViewModels.AccountViewModels;
 using Pustok.DAL.Enums;
+using System.Security.Principal;
 
 namespace Pustok.BLL.Services.Implementation;
 
@@ -33,10 +34,17 @@ public class AccountManager : IAccountService
     public async Task<bool> LoginAsync(LoginViewModel loginVm, ModelStateDictionary modelState)
     {
         if (_httpContextAccessor.HttpContext?.User.Identity?.IsAuthenticated ?? true)
-            throw new InvalidInputException("User already signed");
+        {
+            modelState.AddModelError(string.Empty, "User already signed in");
+
+            return false;
+        }
+           
 
         if (!modelState.IsValid)
             return false;
+
+      
 
         var user = await _userManager.FindByEmailAsync(loginVm.Email);
 
@@ -44,6 +52,12 @@ public class AccountManager : IAccountService
         {
             modelState.AddModelError(string.Empty, "Email or Password is incorrect");
 
+            return false;
+        }
+        if (!user.EmailConfirmed)
+        {
+            // Email is not confirmed, return an error
+            modelState.AddModelError("", "Please confirm your email address before logging in.");
             return false;
         }
 
@@ -55,6 +69,7 @@ public class AccountManager : IAccountService
             return false;
         }
 
+        
 
         if (!result.Succeeded)
         {
@@ -70,7 +85,14 @@ public class AccountManager : IAccountService
     public async Task<ServiceResponse> RegisetrAsync(RegisterViewModel registerVm, ModelStateDictionary modelState)
     {
         if (_httpContextAccessor.HttpContext?.User.Identity?.IsAuthenticated ?? true)
-            throw new InvalidInputException("User already signed");
+        {
+            return new ServiceResponse
+            {
+                Success = false,
+                Errors = {"User already registered"}
+            };
+        }
+          
 
 
         var user = _mapper.Map<AppUser>(registerVm);
@@ -90,6 +112,7 @@ public class AccountManager : IAccountService
 
         await _userManager.AddToRoleAsync(user, RoleType.Member.ToString());
 
+        
         // Generate email verification token
         var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
         var callbackUrl = _urlHelper.Action("VerifyEmail", "Account",
@@ -115,5 +138,5 @@ public class AccountManager : IAccountService
 public class ServiceResponse
 {
     public bool Success { get; set; }
-    public List<string> Errors { get; set; } = new List<string>();
+    public List<string> Errors { get; set; } = new List<string>(); 
 }

@@ -47,6 +47,7 @@ public static class BusinessLayerRegistration
 
         services.AddScoped<IUrlHelper>(provider =>
         {
+            var urlHelperFactory = provider.GetRequiredService<IUrlHelperFactory>();
             var actionContextAccessor = provider.GetRequiredService<IActionContextAccessor>();
             var actionContext = actionContextAccessor.ActionContext;
 
@@ -55,9 +56,8 @@ public static class BusinessLayerRegistration
                 throw new InvalidOperationException("ActionContext is not available. Ensure this is called within the context of an HTTP request.");
             }
 
-            return new UrlHelper(actionContext);
+            return urlHelperFactory.GetUrlHelper(actionContext);
         });
-
 
 
         services

@@ -30,9 +30,10 @@ public class AccountController : Controller
         if(!result)
             return View(model);
 
-        var reffererUrl = Request.Headers["Referer"].ToString();
+        //var reffererUrl = Request.Headers["Referer"].ToString();
 
-        return Redirect(reffererUrl);
+        //return Redirect(reffererUrl);
+        return RedirectToAction("Index", "Home");
     }
 
     public IActionResult Register()
@@ -50,7 +51,7 @@ public class AccountController : Controller
 
        var result = await _accountService.RegisetrAsync(model, ModelState);
 
-        if (result!.Success)
+        if (!result.Success)
         {
             foreach (var error in result.Errors)
             {
