@@ -5,6 +5,7 @@ using Pustok.BLL.ViewModels;
 
 namespace Pustok.MVC.Areas.Admin.Controllers;
 [Area("Admin")]
+[AutoValidateAntiforgeryToken]
 public class TagController : Controller
 {
     private readonly ITagService _tagService;

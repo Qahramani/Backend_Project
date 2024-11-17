@@ -38,7 +38,9 @@ public static class BusinessLayerRegistration
         services.AddScoped<IBasketService, BasketManager>();
         services.AddScoped<ILayoutService, LayoutManager>();
         services.AddScoped<IAccountService, AccountManager>();
-        
+        services.AddScoped<IAdminService, AdminService>();
+
+
         services.AddScoped<ICloudinaryService, CloudinaryManager>();
         services.AddScoped<IEmailService, EmailService>();
 

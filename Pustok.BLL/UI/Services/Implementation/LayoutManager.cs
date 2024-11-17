@@ -21,8 +21,5 @@ public class LayoutManager : ILayoutService
         return settings;
     }
 
-    public async Task AddToBasket(int id)
-    {
-        await _basketService.AddToBasketAsync(id);
-    }
+  
 }

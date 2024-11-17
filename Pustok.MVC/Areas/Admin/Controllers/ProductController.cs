@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Pustok.BLL.Services.Abstraction;
 using Pustok.BLL.ViewModels;
 
 namespace Pustok.MVC.Areas.Admin.Controllers;
 
 [Area("Admin")]
+[AutoValidateAntiforgeryToken]
 public class ProductController : Controller
 {
     private readonly IProductService _productService;

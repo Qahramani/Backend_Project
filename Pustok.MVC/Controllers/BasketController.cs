@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Pustok.BLL.Services.Abstraction;
-using Pustok.BLL.ViewModels;
 
 namespace Pustok.MVC.Controllers;
-
+[AutoValidateAntiforgeryToken]
 public class BasketController : Controller
 {
     private readonly IBasketService _basketService;
@@ -17,7 +16,10 @@ public class BasketController : Controller
     {
         await _basketService.AddToBasketAsync(id);
 
-        return RedirectToAction("Index","Home");
+        var reffererurl = Request.Headers["referer"].ToString();
+
+        return Redirect(reffererurl);
+
     }
     public async Task<IActionResult> ShoppingCard()
     {

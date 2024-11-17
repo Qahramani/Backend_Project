@@ -5,6 +5,6 @@ public interface ICategoryService : ICrudService<Category, CategoryViewModel, Ca
 {
     Task<List<CategoryViewModel>> GetParentCategories();
     Task<List<CategoryViewModel>> GetSubCategories(int id);
-    Task<CategoryViewModel> RemoveAndNullifyChildrenAsync(int id); 
+    //Task<CategoryViewModel> RemoveAndNullifyChildrenAsync(int id); 
 
 }

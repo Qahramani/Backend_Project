@@ -7,6 +7,7 @@ using Pustok.BLL.ViewModels;
 namespace Pustok.MVC.Areas.Admin.Controllers;
 
 [Area("Admin")]
+[AutoValidateAntiforgeryToken]
 public class CategoryController : Controller
 {
     private readonly ICategoryService _categoryService;
@@ -102,20 +103,11 @@ public class CategoryController : Controller
 
         if (category == null) return NotFound();
 
-        return View(category);
-    }
-    [HttpPost]
-    public async Task<IActionResult> Delete(int id, string deleteOption)
-    {
-        if (deleteOption == "deleteWithSubcategories")
-        {
+        
             await _categoryService.RemoveAsync(id);
-        }
-        else if (deleteOption == "deleteAndOrphanSubcategories")
-        {
-            await _categoryService.RemoveAndNullifyChildrenAsync(id);
-        }
 
         return RedirectToAction(nameof(Index));
+
     }
+ 
 }

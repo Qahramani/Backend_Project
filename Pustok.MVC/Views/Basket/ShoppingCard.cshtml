@@ -48,7 +48,7 @@
 												</div>
 											</div>
 										</td>
-										<td class="pro-subtotal"><span>@product.Count * @product.Price</span></td>
+										<td class="pro-subtotal"><span>@(product.Count * product.Price)</span></td>
 									</tr>
 									}
 									
@@ -80,9 +80,9 @@
 					<div class="cart-summary">
 						<div class="cart-summary-wrap">
 							<h4><span>Cart Summary</span></h4>
-							<p>Sub Total <span class="text-primary">$1250.00</span></p>
-							<p>Shipping Cost <span class="text-primary">$00.00</span></p>
-							<h2>Grand Total <span class="text-primary">$1250.00</span></h2>
+							<p> Total <span class="text-primary">@Model.Sum(x => x.Price)</span></p>
+							@* <p>Shipping Cost <span class="text-primary">$00.00</span></p>
+							<h2>Grand Total <span class="text-primary">$1250.00</span></h2> *@
 						</div>
 						<div class="cart-summary-button">
 							<a href="checkout.html" class="checkout-btn c-btn btn--primary">Checkout</a>

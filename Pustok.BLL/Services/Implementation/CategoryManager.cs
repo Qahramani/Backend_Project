@@ -47,7 +47,7 @@ public class CategoryManager : CrudManager<Category, CategoryViewModel, Category
 
     public async Task<List<CategoryViewModel>> GetSubCategories(int id)
     {
-        var list = await _categoryRepository.GetAllAsync(x => x.ParentCategoryId == id);
+        var list = await _categoryRepository.GetAllAsync(x => x.ParentCategoryId == id, enableTracking : false);
 
         return _mapper.Map<List<CategoryViewModel>>(list);
     }
@@ -73,9 +73,8 @@ public class CategoryManager : CrudManager<Category, CategoryViewModel, Category
 
     public override async Task<CategoryViewModel> RemoveAsync(int id)
     {
-        var category = await _categoryRepository.GetAsync(id);
+        var category = await _categoryRepository.GetAsync(id, enableTracking : false);
 
-        await _cloudinaryService.FileDeleteAsync(category.ImageUrl);
 
         var subCategories = await GetSubCategories(id);
 
@@ -87,42 +86,45 @@ public class CategoryManager : CrudManager<Category, CategoryViewModel, Category
             foreach (var subCategory in subCatVms)
             {
                 await _categoryRepository.RemoveAsync(subCategory);
+
+                await _cloudinaryService.FileDeleteAsync(subCategory.ImageUrl);
             }
 
         }
-
-        var deletedCategory = await _categoryRepository.RemoveAsync(category);
-
-        return _mapper.Map<CategoryViewModel>(deletedCategory);
-    }
-
-    public async Task<CategoryViewModel> RemoveAndNullifyChildrenAsync(int id)
-    {
-
-        var category = await _categoryRepository.GetAsync(id);
-
         await _cloudinaryService.FileDeleteAsync(category.ImageUrl);
 
-        var subCategories = await GetSubCategories(id);
-
-        if (subCategories != null)
-        {
-
-            var subCatVms = _mapper.Map<List<Category>>(subCategories);
-
-            foreach (var subCategory in subCatVms)
-            {
-                subCategory.ParentCategoryId = null;
-
-                await _categoryRepository.UpdateAsync(subCategory);
-            }
-
-        }
-
         var deletedCategory = await _categoryRepository.RemoveAsync(category);
 
         return _mapper.Map<CategoryViewModel>(deletedCategory);
     }
+
+    //public async Task<CategoryViewModel> RemoveAndNullifyChildrenAsync(int id)
+    //{
+
+    //    var category = await _categoryRepository.GetAsync(id);
+
+    //    await _cloudinaryService.FileDeleteAsync(category.ImageUrl);
+
+    //    var subCategories = await GetSubCategories(id);
+
+    //    if (subCategories != null)
+    //    {
+
+    //        var subCatVms = _mapper.Map<List<Category>>(subCategories);
+
+    //        foreach (var subCategory in subCatVms)
+    //        {
+    //            subCategory.ParentCategoryId = null;
+
+    //            await _categoryRepository.UpdateAsync(subCategory);
+    //        }
+
+    //    }
+
+    //    var deletedCategory = await _categoryRepository.RemoveAsync(category);
+
+    //    return _mapper.Map<CategoryViewModel>(deletedCategory);
+    //}
 
  
 }

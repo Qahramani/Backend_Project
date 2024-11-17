@@ -1,22 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Pustok.BLL.UI.Services.Abstraction;
 
-namespace Pustok.MVC.Controllers
+namespace Pustok.MVC.Controllers;
+[AutoValidateAntiforgeryToken]
+
+public class HomeController : Controller
 {
-    public class HomeController : Controller
+    private readonly IHomeService _homeService;
+
+    public HomeController(IHomeService homeService)
     {
-        private readonly IHomeService _homeService;
+        _homeService = homeService;
+    }
 
-        public HomeController(IHomeService homeService)
-        {
-            _homeService = homeService;
-        }
+    public async Task<IActionResult> Index(int? id)
+    {
+        var vm = await _homeService.GetHomeViewModel(id);
 
-        public async Task<IActionResult> Index(int? id)
-        {
-            var vm = await _homeService.GetHomeViewModel(id);
-
-            return View(vm);
-        }
+        return View(vm);
     }
 }

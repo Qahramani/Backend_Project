@@ -28,7 +28,11 @@
                                 <td>
                                     <a class="btn btn-secondary" asp-controller="category" asp-action="details" asp-route-id="@item.Id">Details</a>
                                     <a class="btn btn-warning" asp-controller="category" asp-action="update" asp-route-id="@item.Id">Update</a>
-                                    <a class="btn btn-danger" asp-controller="category" asp-action="delete" asp-route-id="@item.Id">Delete</a>
+                                    <a class="btn btn-sm btn-danger"
+                                       asp-action="Delete" asp-route-id="@item.Id"
+                                       onclick="return confirm('Do you really want delete this category??')">
+                                        <i class="fas fa-trash-alt"></i> Yes
+                                    </a>
                                 </td>
                             </tr>
                         }

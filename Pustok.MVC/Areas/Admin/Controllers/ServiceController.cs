@@ -6,6 +6,7 @@ using Pustok.BLL.ViewModels;
 namespace Pustok.MVC.Areas.Admin.Controllers;
 
 [Area("Admin")]
+[AutoValidateAntiforgeryToken]
 public class ServiceController : Controller
 {
     private readonly IServiceService _serviceService;

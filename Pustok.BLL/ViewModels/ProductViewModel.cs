@@ -24,7 +24,7 @@ public class ProductViewModel : IViewModel
     public List<ProductImageViewModel> Images { get; set; } = [];
     public List<ProductTagViewModel> ProductTags { get; set; } = [];
 
-    public decimal DiscountPrice() => OriginalPrice * (DiscountPercentage / 100m);
+    public decimal DiscountPrice() => OriginalPrice * ((DiscountPercentage / 100m) == 0 ? 1 : (DiscountPercentage / 100m));
 
 }
 public class ProductCreateViewModel : IViewModel

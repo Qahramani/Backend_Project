@@ -59,7 +59,7 @@ public class AccountController : Controller
                 return View(model);
             }
         }
-        return RedirectToAction("index", "home");
+        return RedirectToAction(nameof(Login));
     }
     public async Task<IActionResult> Logout()
     {
