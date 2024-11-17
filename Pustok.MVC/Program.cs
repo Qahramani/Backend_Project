@@ -1,5 +1,3 @@
-using FluentValidation.AspNetCore;
-using FluentValidation;
 using Pustok.BLL;
 using Pustok.DAL;
 using Pustok.DAL.DataContext;
@@ -11,6 +9,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDalServices(builder.Configuration);
 builder.Services.AddBllServices();
+
 
 
 var app = builder.Build();

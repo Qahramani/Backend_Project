@@ -4,30 +4,30 @@
 		<div class="row">
 			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-6 mb--30 mb-lg--0">
 				<!-- Login Form s-->
-				<form action="#">
+				<form method="post" >
 					<div class="login-form">
 						<h4 class="login-title">New Customer</h4>
-						<p><span class="font-weight-bold">I am a new customer</span></p>
+						<p><span class="font-weight-bold"><div asp-validation-summary="ModelOnly" class="text-danger"></div></span></p>
 						<div class="row">
 							<div class="col-md-12 col-12 mb--15">
-								<label asp-for="Usesrname">Username</label>
-								<input class="mb-0 form-control" asp-for="Usesrname" placeholder="Enter your username">
-								<span asp-validation-for="Usesrname"></span>
+								<label asp-for="Username">Username</label>
+								<input class="mb-0 form-control" asp-for="Username" placeholder="Enter your username">
+								<span asp-validation-for="Username" class="text-danger"></span>
 							</div>
 							<div class="col-12 mb--20">
 								<label asp-for="Email">Email</label>
 								<input class="mb-0 form-control" asp-for="Email" placeholder="Enter Your Email Address Here..">
-								<span asp-validation-for="Email"></span>
+								<span asp-validation-for="Email" class="text-danger"></span>
 							</div>
 							<div class="col-lg-6 mb--20">
 								<label asp-for="Password">Password</label>
 								<input class="mb-0 form-control" asp-for="Password" placeholder="Enter your password">
-								<span asp-validation-for="Password"></span>
+								<span asp-validation-for="Password" class="text-danger"></span>
 							</div>
 							<div class="col-lg-6 mb--20">
-								<label asp-for="ConfirmPassword">>Repeat Password</label>
+								<label asp-for="ConfirmPassword">Repeat Password</label>
 								<input class="mb-0 form-control" asp-for="ConfirmPassword" placeholder="Repeat your password">
-								<span asp-validation-for="ConfirmPassword"></span>
+								<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
 							</div>
 							<div class="col-md-12">
 								<button class="btn btn-primary" type="submit">Register</button>

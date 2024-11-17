@@ -10,11 +10,12 @@ public class Product : BaseEntity
     public required string Brand { get; set; }
     public required string Color { get; set; }
     public decimal OriginalPrice { get; set; }
-    public decimal DiscountPrice { get; set; }
+    public int DiscountPercentage { get; set; }
     public decimal Tax { get; set; }
     public bool InStock { get; set; } = false;
     public bool IsDeleted { get; set; } = false;
     public int StockQuantity { get; set; }
+    public int SalesCount { get; set; }
     public int Rating { get; set; }
     public int RewardPoint { get; set; }
     public int CategoryId { get; set; }

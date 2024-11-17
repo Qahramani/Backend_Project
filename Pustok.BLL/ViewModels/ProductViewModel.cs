@@ -11,17 +11,21 @@ public class ProductViewModel : IViewModel
     public string? Brand { get; set; }
     public string? Color { get; set; }
     public decimal OriginalPrice { get; set; }
-    public decimal DiscountPrice { get; set; }
+    public int DiscountPercentage { get; set; }
     public decimal Tax { get; set; }
     public bool InStock { get; set; } = false;
     public bool IsDeleted { get; set; } = false;
     public int StockQuantity { get; set; }
+    public int SalesCount { get; set; }
     public int Rating { get; set; }
     public int RewardPoint { get; set; }
     public int CategoryId { get; set; }
     public CategoryViewModel? Category { get; set; }
     public List<ProductImageViewModel> Images { get; set; } = [];
     public List<ProductTagViewModel> ProductTags { get; set; } = [];
+
+    public decimal DiscountPrice() => OriginalPrice * (DiscountPercentage / 100m);
+
 }
 public class ProductCreateViewModel : IViewModel
 {
@@ -31,7 +35,7 @@ public class ProductCreateViewModel : IViewModel
     public string? Brand { get; set; }
     public string? Color { get; set; }
     public decimal OriginalPrice { get; set; }
-    public decimal DiscountPrice { get; set; }
+    public decimal DiscountPercentage { get; set; }
     public decimal Tax { get; set; }
     public bool InStock { get; set; } = false;
     public int StockQuantity { get; set; }
@@ -54,7 +58,7 @@ public class ProductUpdateViewModel : IViewModel
     public string Brand { get; set; }
     public string? Color { get; set; }
     public decimal OriginalPrice { get; set; }
-    public decimal DiscountPrice { get; set; }
+    public int DiscountPercentage { get; set; }
     public decimal Tax { get; set; }
     public bool InStock { get; set; } = false;
     public int StockQuantity { get; set; }

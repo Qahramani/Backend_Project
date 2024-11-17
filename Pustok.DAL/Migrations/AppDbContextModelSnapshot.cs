@@ -175,7 +175,6 @@ namespace Pustok.DAL.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Fullname")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
@@ -334,10 +333,10 @@ namespace Pustok.DAL.Migrations
                         .HasMaxLength(1024)
                         .HasColumnType("nvarchar(1024)");
 
-                    b.Property<decimal>("DiscountPrice")
+                    b.Property<int>("DiscountPercentage")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(10,2)")
-                        .HasDefaultValue(0m);
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.Property<bool>("InStock")
                         .ValueGeneratedOnAdd()
@@ -374,6 +373,9 @@ namespace Pustok.DAL.Migrations
                         .HasColumnType("int")
                         .HasDefaultValue(0);
 
+                    b.Property<int>("SalesCount")
+                        .HasColumnType("int");
+
                     b.Property<int>("StockQuantity")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
@@ -398,7 +400,7 @@ namespace Pustok.DAL.Migrations
                             CategoryId = 1,
                             Color = "qirmizi",
                             Description = "Long printed dress with thin adjustable straps. V-neckline and wiring under the Dust with ruffles at the bottom of the.",
-                            DiscountPrice = 10.1m,
+                            DiscountPercentage = 0,
                             InStock = false,
                             IsDeleted = false,
                             Name = "Beats EP Wired On-Ear Headphone-Black",
@@ -406,6 +408,7 @@ namespace Pustok.DAL.Migrations
                             ProductCode = "nem",
                             Rating = 0,
                             RewardPoint = 10,
+                            SalesCount = 0,
                             StockQuantity = 10,
                             Tax = 1m
                         });

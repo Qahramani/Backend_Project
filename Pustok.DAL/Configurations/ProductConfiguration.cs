@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Pustok.DAL.Configurations;
 
@@ -10,7 +9,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(x => x.Name).IsRequired().HasMaxLength(255);
         builder.Property(x => x.Description).IsRequired().HasMaxLength(1024);
         builder.Property(x => x.OriginalPrice).HasDefaultValue(0).HasColumnType("decimal(10,2)");
-        builder.Property(x => x.DiscountPrice).HasDefaultValue(0).HasColumnType("decimal(10,2)");
+        builder.Property(x => x.DiscountPercentage).HasDefaultValue(0);
         builder.Property(x => x.Tax).HasDefaultValue(0).HasColumnType("decimal(10,2)");
         builder.Property(x => x.ProductCode).IsRequired().HasMaxLength(255);
         builder.Property(x => x.Brand).IsRequired().HasMaxLength(255);

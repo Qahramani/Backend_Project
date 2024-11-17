@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Pustok.BLL.Helpers.Contracts;
 using Pustok.BLL.Services.Abstraction;
 using Pustok.BLL.Services.Implementation.Generic;
@@ -122,4 +123,6 @@ public class CategoryManager : CrudManager<Category, CategoryViewModel, Category
 
         return _mapper.Map<CategoryViewModel>(deletedCategory);
     }
+
+ 
 }

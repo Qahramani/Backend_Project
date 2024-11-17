@@ -1,23 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
 using Pustok.BLL.Helpers.Contracts;
 using Pustok.BLL.Services.Abstraction;
 using Pustok.BLL.Services.Implementation.Generic;
 using Pustok.DAL.Repositories.Abstraction;
 using Pustok.DAL.Repositories.Abstraction.Generic;
-using System.Runtime.CompilerServices;
-using System.Runtime.ConstrainedExecution;
 
 namespace Pustok.BLL.Services.Implementation;
 
 public class ProductManager : CrudManager<Product, ProductViewModel, ProductListViewModel, ProductCreateViewModel, ProductUpdateViewModel>, IProductService
 {
-    private readonly ICategoryService _categoryService;
     private readonly ITagService _tagService;
+    private readonly ICategoryService _categoryService;
     private readonly ICloudinaryService _cloudinaryService;
     private readonly IProductRepository _productRepository;
     private readonly IProductTagService _productTagService;
-    public ProductManager(IRepository<Product> repository, IMapper mapper, ICategoryService categoryService, ITagService tagService, ICloudinaryService cloudinaryService, IProductRepository productService, IProductRepository productRepository, IProductTagService productTagService) : base(repository, mapper)
+
+    public ProductManager(IRepository<Product> repository, IMapper mapper, ICategoryService categoryService, ITagService tagService, ICloudinaryService cloudinaryService, IProductRepository productRepository, IProductTagService productTagService) : base(repository, mapper)
     {
         _categoryService = categoryService;
         _tagService = tagService;
@@ -178,5 +176,14 @@ public class ProductManager : CrudManager<Product, ProductViewModel, ProductList
         product.IsDeleted = true;
 
         await _productRepository.UpdateAsync(product);
+    }
+
+    public async Task<List<ProductViewModel>> GetProductsByCategoryIdAsync(int id)
+    {
+        var products=await _productRepository.GetAllAsync(x=>x.CategoryId==id);
+
+        var vm = _mapper.Map<List<ProductViewModel>>(products);
+
+        return vm;
     }
 }

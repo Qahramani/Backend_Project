@@ -4,5 +4,6 @@ namespace Pustok.BLL.UI.Services.Abstraction;
 
 public interface IHomeService
 {
-    Task<HomeViewModel> GetHomeViewModel();
+    Task<HomeViewModel> GetHomeViewModel(int? categoryId);
+    Task<List<ProductViewModel>> GetProductsByCategory(int categoryId);
 }

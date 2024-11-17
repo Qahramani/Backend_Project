@@ -14,6 +14,7 @@ public class AppDbContext : IdentityDbContext<AppUser>
     {
         builder.ApplyConfigurationsFromAssembly(typeof(ProductConfiguration).Assembly);
         base.OnModelCreating(builder);
+        builder.Entity<Product>().HasQueryFilter(x=>x.IsDeleted==false);
 
         SeedData.Seed(builder);
     }

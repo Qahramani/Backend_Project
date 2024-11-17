@@ -6,4 +6,6 @@ public interface IProductService : ICrudService<Product, ProductViewModel, Produ
     Task<ProductUpdateViewModel> GetProductUpdateViewModelAsync(int id);
     Task<ProductViewModel> GetProductDetailsViewModel(int id);
     Task ProductSoftDeleteAsync(int id);
+    Task<List<ProductViewModel>> GetProductsByCategoryIdAsync(int id);
+
 }

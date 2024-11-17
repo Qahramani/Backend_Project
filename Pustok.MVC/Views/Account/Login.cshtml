@@ -3,20 +3,22 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-12 col-md-12 col-lg-6 col-xs-12">
-				<form action="https://demo.hasthemes.com/pustok-preview/pustok/">
+				<form method="post">
 					<div class="login-form">
 						<h4 class="login-title">Returning Customer</h4>
-						<p><span class="font-weight-bold">I am a returning customer</span></p>
+						<p><span class="font-weight-bold"><div asp-validation-summary="ModelOnly" class="text-danger"></div></span></p>
 						<div class="row">
+							
+
 							<div class="col-md-12 col-12 mb--15">
 								<label asp-for="Email">Enter your email address here...</label>
 								<input asp-for="Email" class="mb-0 form-control" placeholder="Enter you email address here...">
-								<span asp-validation-for="Email"></span>
+								<span asp-validation-for="Email" class="text-danger"></span>
 							</div>
 							<div class="col-12 mb--20">
 								<label asp-for="Password">Password</label>
 								<input asp-for="Password" class="mb-0 form-control" placeholder="Enter your password">
-								<span asp-validation-for="Password"></span>
+								<span asp-validation-for="Password" class="text-danger"></span>
 							</div>
 							<div class="col-md-12">
 								<button class="btn btn-primary" type="submit">Login</button>

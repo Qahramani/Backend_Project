@@ -34,9 +34,9 @@
                     <!-- Pricing Information -->
                     <div class="mb-3">
                         <strong>Original Price:</strong> $@Model.OriginalPrice<br />
-                        <strong>Discount Price:</strong> $@Model.DiscountPrice<br />
+                        <strong>Discount Percentage:</strong> $@Model.DiscountPercentage %<br />
                         <strong>Tax:</strong> $@Model.Tax<br />
-                        <strong>Final Price:</strong> $@(Model.OriginalPrice - Model.DiscountPrice + Model.Tax)
+                        <strong>Final Price:</strong> $@Model.OriginalPrice * (1 - (Model.DiscountPercentage / 100m) + Model.Tax)
                     </div>
 
                     <!-- Stock Information -->
@@ -48,7 +48,8 @@
                     <!-- Rating and Reward Points -->
                     <div class="mb-3">
                         <strong>Rating:</strong> @Model.Rating / 5<br />
-                        <strong>Reward Points:</strong> @Model.RewardPoint
+                        <strong>Reward Points:</strong> @Model.RewardPoint<br/>
+                        <strong>Sales Count:</strong> @Model.SalesCount
                     </div>
 
                     <!-- Category Information -->

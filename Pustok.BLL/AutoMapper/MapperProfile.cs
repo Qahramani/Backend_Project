@@ -1,5 +1,6 @@
 ﻿using Pustok.BLL.Services.Abstraction;
 using Pustok.BLL.ViewModels;
+using Pustok.BLL.ViewModels.AccountViewModels;
 using Pustok.DAL.Paging;
 
 namespace Pustok.BLL.AutoMapper;
@@ -55,5 +56,13 @@ public class MapperProfile : Profile
         CreateMap<Subscribe, SubscribeUpdateViewModel>().ReverseMap();
         CreateMap<SubscribeViewModel, SubscribeUpdateViewModel>().ReverseMap();
         CreateMap<Paginate<Subscribe>, SubscribeListViewModel>().ReverseMap();
+
+        CreateMap<BasketItem, BasketItemViewModel>().ReverseMap();
+        CreateMap<BasketItem, BasketItemCreateViewModel>().ReverseMap();
+        CreateMap<BasketItem, BasketItemUpdateViewModel>().ReverseMap();
+        CreateMap<BasketItemViewModel, BasketItemUpdateViewModel>().ReverseMap();
+        CreateMap<Paginate<BasketItem>, BasketItemListViewModel>().ReverseMap();
+
+        CreateMap<RegisterViewModel, AppUser>().ReverseMap();
     }
 }

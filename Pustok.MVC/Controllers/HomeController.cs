@@ -1,7 +1,5 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Pustok.BLL.UI.Services.Abstraction;
-using Pustok.MVC.Models;
-using System.Diagnostics;
 
 namespace Pustok.MVC.Controllers
 {
@@ -14,11 +12,11 @@ namespace Pustok.MVC.Controllers
             _homeService = homeService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            var homeVm = await _homeService.GetHomeViewModel();
+            var vm = await _homeService.GetHomeViewModel(id);
 
-            return View(homeVm);
+            return View(vm);
         }
     }
 }

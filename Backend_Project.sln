@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pustok.MVC", "Pustok.MVC\Pustok.MVC.csproj", "{5C5E0E3B-D49A-4D7E-8E7C-55E3D5AB92EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pustok.MVC", "Pustok.MVC\Pustok.MVC.csproj", "{5C5E0E3B-D49A-4D7E-8E7C-55E3D5AB92EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pustok.DAL", "Pustok.DAL\Pustok.DAL.csproj", "{3A847AC4-13FB-4324-B543-DB8408BBD519}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pustok.DAL", "Pustok.DAL\Pustok.DAL.csproj", "{3A847AC4-13FB-4324-B543-DB8408BBD519}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pustok.BLL", "Pustok.BLL\Pustok.BLL.csproj", "{0EF20400-9FF7-43BF-8CC2-1660655931E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pustok.BLL", "Pustok.BLL\Pustok.BLL.csproj", "{0EF20400-9FF7-43BF-8CC2-1660655931E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

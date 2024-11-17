@@ -36,7 +36,7 @@ public class SeedData
             );
         builder.Entity<Product>().HasData(
             new Product { Id = 1, Name = "Beats EP Wired On-Ear Headphone-Black", Description = "Long printed dress with thin adjustable straps. V-neckline and wiring under the Dust with ruffles at the bottom of the." ,
-            Brand = "Canon",ProductCode = "nem", RewardPoint =10, Color = "qirmizi", StockQuantity = 10, Tax = 1, OriginalPrice =12.40M, DiscountPrice =10.1M, CategoryId = 1}
+            Brand = "Canon",ProductCode = "nem", RewardPoint =10, Color = "qirmizi", StockQuantity = 10, Tax = 1, OriginalPrice =12.40M, CategoryId = 1}
             );
         builder.Entity<ProductImage>().HasData(
             new ProductImage { Id = 1, IsMain = true, ProductId = 1, ImageUrl = "https://res-console.cloudinary.com/dsclrbdnp/media_explorer_thumbnails/0b1b0cdf56beb5528272dcaa91a1085e/detailed" },
