@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Pustok.BLL.Exceptions;
 using Pustok.BLL.Helpers.Contracts;
 using Pustok.BLL.Services.Abstraction;
 using Pustok.BLL.Services.Implementation.Generic;
@@ -14,14 +15,16 @@ public class ProductManager : CrudManager<Product, ProductViewModel, ProductList
     private readonly ICloudinaryService _cloudinaryService;
     private readonly IProductRepository _productRepository;
     private readonly IProductTagService _productTagService;
+    private readonly IProductImageRepository _productImageRepository;
 
-    public ProductManager(IRepository<Product> repository, IMapper mapper, ICategoryService categoryService, ITagService tagService, ICloudinaryService cloudinaryService, IProductRepository productRepository, IProductTagService productTagService) : base(repository, mapper)
+    public ProductManager(IRepository<Product> repository, IMapper mapper, ICategoryService categoryService, ITagService tagService, ICloudinaryService cloudinaryService, IProductRepository productRepository, IProductTagService productTagService, IProductImageRepository productImageRepository) : base(repository, mapper)
     {
         _categoryService = categoryService;
         _tagService = tagService;
         _cloudinaryService = cloudinaryService;
         _productRepository = productRepository;
         _productTagService = productTagService;
+        _productImageRepository = productImageRepository;
     }
 
     public async Task<ProductCreateViewModel> GetProductCreateViewModelAsync()
@@ -61,6 +64,10 @@ public class ProductManager : CrudManager<Product, ProductViewModel, ProductList
 
         }
         var updateViewModel = _mapper.Map<ProductUpdateViewModel>(product);
+        updateViewModel.MainImagePath = product.Images.FirstOrDefault(x => x.IsMain)?.ImageUrl;
+        updateViewModel.HoverImagePath = product.Images.FirstOrDefault(x => x.IsHover)?.ImageUrl;
+        updateViewModel.AdditionalImagePaths = product.Images.Where(x => x.IsMain == false && x.IsHover ==false).Select(x => x.ImageUrl).ToList();
+        updateViewModel.AdditionalImageIds = product.Images.Where(x => x.IsMain == false && x.IsHover ==false).Select(x => x.Id).ToList();
         updateViewModel.AllProductTags = tagsSelectListItem;
         updateViewModel.Categories = categories;
         updateViewModel.SelectedTagsIds = product!.ProductTags.Select(pt => pt.TagId).ToList();
@@ -70,6 +77,10 @@ public class ProductManager : CrudManager<Product, ProductViewModel, ProductList
 
     public override async Task<ProductViewModel> UpdateAsync(ProductUpdateViewModel updateViewModel)
     {
+        var product = await _productRepository.GetAsync( x => x.Id == updateViewModel.Id,include : x => x.Include(x => x.Images));
+
+        if (product == null) throw new NotFoundException("Product not found");
+
         var oldTagsVm = await _productTagService.GetAllAsync(x => x.ProductId == updateViewModel.Id);
 
         //burda producta aid olan butun taglari pozdum
@@ -86,12 +97,114 @@ public class ProductManager : CrudManager<Product, ProductViewModel, ProductList
             var newTag = new ProductTagCreateViewModel
             {
                 TagId = tagId,
-                ProductId = updateViewModel.Id
+                ProductId = product.Id
             };
             await _productTagService.CreateAsync(newTag);
         }
+        //main image update
+        if (updateViewModel.MainImageFile != null)
+        {
+            var mainImage = product.Images.FirstOrDefault(x => x.IsMain);
+            string newMainImageUrl = await _cloudinaryService.ImageCreateAsync(updateViewModel.MainImageFile!);
 
-        return await base.UpdateAsync(updateViewModel);
+            if (mainImage != null)
+            {
+                await _cloudinaryService.FileDeleteAsync(mainImage.ImageUrl);
+                mainImage.ImageUrl = newMainImageUrl;
+
+                await _productImageRepository.UpdateAsync(mainImage);
+            }
+            else
+            {
+                ProductImage newMainImage = new()
+                {
+                    IsHover = true,
+                    ImageUrl = newMainImageUrl,
+                    Product = product
+                };
+
+                product.Images.Add(newMainImage);
+            }
+        }
+        //hover image update
+        if (updateViewModel.HovermageFile != null)
+        {
+            var hoverImage = product.Images.FirstOrDefault(x => x.IsHover);
+            string newHoverImageUrl = await _cloudinaryService.ImageCreateAsync(updateViewModel.HovermageFile!);
+
+            if (hoverImage != null)
+            {
+                await _cloudinaryService.FileDeleteAsync(hoverImage.ImageUrl);
+                hoverImage.ImageUrl = newHoverImageUrl;
+
+                await _productImageRepository.UpdateAsync(hoverImage);
+            }
+            else
+            {
+                ProductImage newHoverImage = new()
+                {
+                    IsHover = true,
+                    ImageUrl = newHoverImageUrl,
+                    Product = product
+                };
+
+                product.Images.Add(newHoverImage);
+            }
+        }
+
+        #region Delete Old Images
+
+        // burda producttun additionnal imagelerin IDlerin gotururuk
+        var oldImgIds = product.Images
+            .Where(x => x.IsMain == false && x.IsHover == false)
+            .Select(x => x.Id)
+            .ToList();
+
+        // burda baxiriq eger updateVmda olmayan kohne sekillerli pozuruq
+        foreach (var imageId in oldImgIds)
+        {
+            var isExist = updateViewModel.AdditionalImageIds.Any(x => x == imageId);
+
+            if (isExist is false)
+            {
+                
+                var image = await _productImageRepository.GetAsync(x => x.Id == imageId);
+
+                if (image != null)
+                {
+                    await _cloudinaryService.FileDeleteAsync(image.ImageUrl);
+
+                    await _productImageRepository.RemoveAsync(image);
+                }
+            }
+        }
+
+        #endregion
+
+        #region Create New Images
+
+        // teze elave olunan sekilleri yardiriq
+        foreach (var image in updateViewModel.AdditionalImages)
+        {
+            string imagePath = await _cloudinaryService.ImageCreateAsync(image);
+
+            ProductImage productImage = new()
+            {
+                ImageUrl = imagePath,
+                Product = product
+            };
+
+            product.Images.Add(productImage);
+        }
+
+        #endregion
+
+
+        product = _mapper.Map(updateViewModel, product);
+
+        await _productRepository.UpdateAsync(product);
+        
+        return new ProductViewModel { };
     }
 
     public async Task<ProductViewModel> GetProductDetailsViewModel(int id)
@@ -185,5 +298,33 @@ public class ProductManager : CrudManager<Product, ProductViewModel, ProductList
         var vm = _mapper.Map<List<ProductViewModel>>(products);
 
         return vm;
+    }
+
+
+    public async Task<ProductDetailsViewModel> GetProductDetailsAsync(int productId)
+    {
+        var product = await _productRepository.GetAsync(
+               predicate: x => x.Id == productId,include: query => query.Include(p => p.Category).Include(p => p.Images).Include(p => p.ProductTags));
+
+        if (product == null)
+            throw new NotFoundException("Product not found");
+
+        var productVM = new ProductDetailsViewModel()
+        {
+            Id = product.Id,
+            Name = product.Name,
+            Description = product.Description,
+            Price = product.OriginalPrice,
+            DisCountPrice = product.OriginalPrice * (product.DiscountPercentage / 100m == 0 ? 1 : product.DiscountPercentage / 100m),
+            ProductCode = product.ProductCode,
+            Brand = product.Brand,
+            Availability = product.InStock,
+            RewardPoints = product.RewardPoint,
+            CategoryName = product.Category.Name,
+            MainImageUrl = product.Images.FirstOrDefault(x => x.IsMain)?.ImageUrl ?? "undefined",
+            AdditionalImageUrls = product.Images.Where(x => x.IsMain == false && x.IsHover == false).Select(x => x.ImageUrl).ToList()
+        };
+
+        return productVM;
     }
 }

@@ -34,7 +34,7 @@
                         <div class="card-image">
                             <img src="@product.Images.FirstOrDefault(x => x.IsMain = true)?.ImageUrl" alt="">
                             <div class="hover-contents">
-                                <a href="product-details.html" class="hover-image">
+                                    <a asp-controller="home" asp-action="productdetails" asp-route-id="@product.Id" class="hover-image">
                                     <img src="@product.Images.FirstOrDefault(x => x.IsHover = true)?.ImageUrl" alt="">
                                 </a>
                                 <div class="hover-btns">

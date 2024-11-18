@@ -1,5 +1,7 @@
 ﻿@{
     Dictionary<string, string> settings = Model.Settings;
+    SubscribeCreateViewModel subscribe = Model.Subscribe;
+
 }
 
 <footer class="site-footer">
@@ -54,10 +56,26 @@
                     <h3>Newsletter Subscribe</h3>
                 </div>
                 <div class="newsletter-form mb--30">
-                    <form action="https://demo.hasthemes.com/pustok-preview/pustok/php/mail.php">
-                        <input type="email" class="form-control" placeholder="Enter Your Email Address Here...">
-                        <button class="btn btn--primary w-100">Subscribe</button>
+                    <form asp-controller="Home" asp-action="Subscribe" method="post">
+                        <div class="form-group">
+                            <input type="email" name="email" class="form-control" placeholder="Enter Your Email Address Here..." required />
+                        </div>
+                        <button type="submit" class="btn btn--primary w-100">Subscribe</button>
                     </form>
+
+                    @if (TempData["Success"] != null)
+                    {
+                        <div class="alert alert-success">
+                            @TempData["Success"]
+                        </div>
+                    }
+
+                    @if (TempData["Error"] != null)
+                    {
+                        <div class="alert alert-danger">
+                            @TempData["Error"]
+                        </div>
+                    }
                 </div>
                 <div class="social-block">
                     <h3 class="title">STAY CONNECTED</h3>

@@ -33,6 +33,7 @@ public class AccountManager : IAccountService
 
     public async Task<bool> LoginAsync(LoginViewModel loginVm, ModelStateDictionary modelState)
     {
+
         if (_httpContextAccessor.HttpContext?.User.Identity?.IsAuthenticated ?? true)
         {
             modelState.AddModelError(string.Empty, "User already signed in");
@@ -48,9 +49,18 @@ public class AccountManager : IAccountService
 
         var user = await _userManager.FindByEmailAsync(loginVm.Email);
 
+       
+
         if (user == null)
         {
             modelState.AddModelError(string.Empty, "Email or Password is incorrect");
+
+            return false;
+        }
+
+        if (!user.IsActive)
+        {
+            modelState.AddModelError(string.Empty, "User is inactivated");
 
             return false;
         }

@@ -120,7 +120,7 @@ public class BasketManager : IBasketService
         foreach (var basketIem in basketItems)
         {
 
-            var product = await _productService.GetAsync(basketIem.ProductId);
+            var product = await _productService.GetAsync(x => x.Id == basketIem.ProductId, x => x.Include(x => x.Images));
 
             if (product is null)
                 continue;

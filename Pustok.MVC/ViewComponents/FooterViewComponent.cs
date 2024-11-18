@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Pustok.BLL.UI.Services.Abstraction;
+using Pustok.BLL.ViewModels;
 using Pustok.MVC.ViewModels;
 
 namespace Pustok.MVC.ViewComponents;
@@ -19,10 +20,13 @@ public class FooterViewComponent : ViewComponent
 
         FooterViewModel vm = new()
         {
-            Settings = settings
+            Settings = settings,
+            Subscribe = new SubscribeCreateViewModel() { }
         };
 
         return View(vm);
     }
+
+
 }
 

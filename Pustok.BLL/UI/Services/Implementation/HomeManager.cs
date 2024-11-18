@@ -48,4 +48,8 @@ public class HomeManager : IHomeService
         return products;
     }
 
+    public async Task<ProductDetailsViewModel> GetProductDetailsAsync(int id)
+    {
+        return await _productService.GetProductDetailsAsync(id);
+    }
 }

@@ -89,18 +89,50 @@
                 </div>
 
 
-               @*  <div class="form-group">
-                    <label for="exampleInputUsername1">Image</label>
-                    <input class="form-control" id="input1" asp-for="MainImage" placeholder="main">
-                    <span asp-validation-for="MainImage" class="text-danger"></span>
-                </div>
 
                 <div class="form-group">
-                    <label for="exampleInputUsername1">Image</label>
-                    <input class="form-control" id="input1" asp-for="SecondaryImages" placeholder="secondary">
-                    <span asp-validation-for="SecondaryImages" class="text-danger"></span>
+                    <img src="@Model.MainImagePath" />
+                    <input type="hidden" asp-for="MainImagePath" />
+                    <label for="exampleInputUsername1">Main image</label>
+                    <input class="form-control" id="input1" asp-for="MainImageFile" placeholder="main image">
+                    <span asp-validation-for="MainImageFile" class="text-danger"></span>
                 </div>
- *@
+
+
+
+                <div class="form-group">
+                    <img src="@Model.HoverImagePath" />
+                    <input type="hidden" asp-for="HoverImagePath" />
+
+                    <label for="exampleInputUsername1">Hover image</label>
+                    <input class="form-control" id="input1" asp-for="HovermageFile" placeholder="Name">
+                    <span asp-validation-for="HovermageFile" class="text-danger"></span>
+                </div>
+
+                @for (int i = 0; i < Model.AdditionalImagePaths?.Count ; i++)
+                {
+                    var imagePath = Model.AdditionalImagePaths[i];
+
+                    <div style="position: relative; display: inline-block; margin-right: 10px;">
+                        <div style="position: relative;">
+                            <img style="width: 100px; height: 100px;" class="primary-img"
+                                 src="@imagePath"
+                                 alt="Product Images" />
+                            <button type="button" class="buttonRemove btn btn-danger" style="position: absolute; top: 0; right: 0; z-index: 1;">
+                                x
+                            </button>
+                            <input asp-for="AdditionalImagePaths" type="hidden" value="@imagePath" />
+                            <input asp-for="AdditionalImageIds" type="hidden" value="@Model.AdditionalImageIds[i]" />
+                        </div>
+
+                    </div>
+                }
+                <div class="form-group">
+                    <label for="exampleInputUsername1">Additional image</label>
+                    <input class="form-control" id="input1" asp-for="AdditionalImages" placeholder="Name">
+                    <span asp-validation-for="AdditionalImages" class="text-danger"></span>
+                </div>
+
 
                 <button type="submit" class="btn btn-primary mr-2">Submit</button>
                 <button class="btn btn-light" asp-action="index">Cancel</button>
@@ -108,3 +140,16 @@
         </div>
     </div>
 </div>
+<script>
+    const buttons = document.querySelectorAll(".buttonRemove");
+
+    buttons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            e.target.parentElement.remove();
+        })
+    })
+
+
+</script>

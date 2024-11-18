@@ -27,3 +27,11 @@ public class MailKitConfigurationDto
     public string Host { get; set; } = null!;
     public string Port { get; set; } = null!;
 }
+
+public class ContactEmailSendViewModel
+{
+    public string? FullName { get; set; }
+    public string? Email { get; set; }
+    public string? Phone { get; set; }
+    public string? Message { get; set; }
+}

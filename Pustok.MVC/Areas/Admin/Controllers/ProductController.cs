@@ -50,7 +50,6 @@ public class ProductController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    //[HttpPost]
     public async Task<IActionResult> Delete(int id)
     {
         var product = await _productService.GetAsync(id);
@@ -77,8 +76,8 @@ public class ProductController : Controller
 
             return View(vm);
         }
-        
 
+        await _productService.UpdateAsync(model);
         return RedirectToAction(nameof(Index));
     }
 }

@@ -25,11 +25,11 @@
                     <td>
                         <a class="btn btn-secondary" asp-controller="product" asp-action="details" asp-route-id="@product.Id">Details</a>
                         <a class="btn btn-warning" asp-controller="product" asp-action="update" asp-route-id="@product.Id">Update</a>
-                         <a class="btn btn-danger" asp-controller="product" asp-action="delete" asp-route-id="@product.Id">Delete</a>
-                        <!-- Delete Button -->
-                        @* <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
-                            Delete Product
-                        </button> *@
+                        <a class="btn btn-sm btn-danger"
+                           asp-action="Delete" asp-route-id="@product.Id"
+                           onclick="return confirm('Do you really want delete this product??')">
+                            <i class="fas fa-trash-alt"></i> Yes
+                        </a>
                     </td>
                 </tr>
             }

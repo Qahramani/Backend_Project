@@ -6,4 +6,5 @@ public interface IHomeService
 {
     Task<HomeViewModel> GetHomeViewModel(int? categoryId);
     Task<List<ProductViewModel>> GetProductsByCategory(int categoryId);
+    Task<ProductDetailsViewModel> GetProductDetailsAsync(int id);
 }
