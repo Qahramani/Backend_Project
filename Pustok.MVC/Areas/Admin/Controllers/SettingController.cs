@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Pustok.BLL.Services.Abstraction;
 using Pustok.BLL.ViewModels;
 
 namespace Pustok.MVC.Areas.Admin.Controllers;
 [Area("Admin")]
+[Authorize(Roles = "Moderator,Admin")]
 [AutoValidateAntiforgeryToken]
 public class SettingController : Controller
 {
@@ -16,7 +18,7 @@ public class SettingController : Controller
         _settingService = settingService;
         _mapper = mapper;
     }
-
+    [Authorize(Roles = "Moderator,Admin")]
     public async Task<IActionResult> Index()
     {
         var settings = await _settingService.GetAllAsync();
@@ -24,13 +26,14 @@ public class SettingController : Controller
         return View(settings);
     }
 
-
+    [Authorize(Roles = "Moderator,Admin")]
     public IActionResult Create()
     {
         return View();
     }
 
     [HttpPost]
+    [Authorize(Roles = "Moderator,Admin")]
     public async Task<IActionResult> Create(SettingCreateViewModel model)
     {
         if (!ModelState.IsValid) return View(model);
@@ -39,6 +42,7 @@ public class SettingController : Controller
 
         return RedirectToAction(nameof(Index));
     }
+    [Authorize(Roles = "Moderator,Admin")]
     public async Task<IActionResult> Update(int id)
     {
         var setting = await _settingService.GetAsync(id);
@@ -50,6 +54,7 @@ public class SettingController : Controller
         return View(settingVm);
     }
     [HttpPost]
+    [Authorize(Roles = "Moderator,Admin")]
     public async Task<IActionResult> Update(SettingUpdateViewModel model)
     {
         if (!ModelState.IsValid) return View(model);
@@ -59,6 +64,7 @@ public class SettingController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(int id)
     {
         await _settingService.RemoveAsync(id);

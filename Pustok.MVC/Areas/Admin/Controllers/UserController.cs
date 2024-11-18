@@ -5,6 +5,7 @@ using Pustok.BLL.Services.Abstraction;
 namespace Pustok.MVC.Areas.Admin.Controllers;
 [Area("admin")]
 [AutoValidateAntiforgeryToken]
+[Authorize(Roles = "Moderator,Admin")]
 public class UserController : Controller
 {
     private readonly IAdminService  _adminService;
@@ -13,7 +14,7 @@ public class UserController : Controller
     {
         _adminService = adminService;
     }
-
+    [Authorize(Roles = "Moderator,Admin")]
     public async Task<IActionResult> Index()
     {
         var users = await _adminService.GetUsersAsync();
@@ -22,7 +23,7 @@ public class UserController : Controller
     }
 
     [HttpPost]
-    //[Authorize("Admin")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> ChangeRole(string userId, List<string> newRoles)
     {
        
@@ -37,6 +38,7 @@ public class UserController : Controller
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> DeactivateUser(string userId)
     {
         if (string.IsNullOrEmpty(userId))
@@ -55,6 +57,7 @@ public class UserController : Controller
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> ActivateUser(string userId)
     {
         if (string.IsNullOrEmpty(userId))

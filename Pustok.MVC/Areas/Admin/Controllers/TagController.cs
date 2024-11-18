@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Pustok.BLL.Services.Abstraction;
 using Pustok.BLL.ViewModels;
 
 namespace Pustok.MVC.Areas.Admin.Controllers;
 [Area("Admin")]
+[Authorize(Roles = "Moderator,Admin")]
 [AutoValidateAntiforgeryToken]
 public class TagController : Controller
 {
@@ -16,7 +18,7 @@ public class TagController : Controller
         _tagService = tagService;
         _mapper = mapper;
     }
-
+    [Authorize(Roles = "Moderator,Admin")]
     public async Task<IActionResult> Index()
     {
         var tags = await _tagService.GetAllAsync();
@@ -24,13 +26,14 @@ public class TagController : Controller
         return View(tags);
     }
 
-    
+    [Authorize(Roles = "Moderator,Admin")]
     public IActionResult Create()
     {
         return View();
     }
 
     [HttpPost]
+    [Authorize(Roles = "Moderator,Admin")]
     public async Task<IActionResult> Create(TagCreateViewModel model)
     {
         if (!ModelState.IsValid) return View(model);
@@ -39,6 +42,7 @@ public class TagController : Controller
 
         return RedirectToAction(nameof(Index));
     }
+    [Authorize(Roles = "Moderator,Admin")]
     public async Task<IActionResult> Update(int id)
     {
         var tag = await _tagService.GetAsync(id);
@@ -50,6 +54,7 @@ public class TagController : Controller
         return View(tagVm);
     }
     [HttpPost]
+    [Authorize(Roles = "Moderator,Admin")]
     public async Task<IActionResult> Update(TagUpdateViewModel model)
     {
         if (!ModelState.IsValid) return View(model);
@@ -58,6 +63,7 @@ public class TagController : Controller
 
         return RedirectToAction(nameof(Index));
     }
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(int id)
     {
        await _tagService.RemoveAsync(id);

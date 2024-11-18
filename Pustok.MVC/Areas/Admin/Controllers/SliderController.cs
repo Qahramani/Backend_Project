@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Pustok.BLL.Services.Abstraction;
 using Pustok.BLL.ViewModels;
 
 namespace Pustok.MVC.Areas.Admin.Controllers;
 [Area("Admin")]
+[Authorize(Roles = "Moderator,Admin")]
 [AutoValidateAntiforgeryToken]
 public class SliderController : Controller
 { 
@@ -16,13 +18,14 @@ public class SliderController : Controller
         _sliderService = sliderService;
         _mapper = mapper;
     }
-
+    [Authorize(Roles = "Moderator,Admin")]
     public async Task<IActionResult> Index()
     {
         var sliders = await _sliderService.GetAllAsync();
 
         return View(sliders);
     }
+    [Authorize(Roles = "Moderator,Admin")]
     public async Task<IActionResult> Details(int id)
     {
         var slider = await _sliderService.GetAsync(id);
@@ -31,12 +34,13 @@ public class SliderController : Controller
 
         return View(slider);
     }
-
+    [Authorize(Roles = "Moderator,Admin")]
     public IActionResult Create()
     {
         return View();
     }
     [HttpPost]
+    [Authorize(Roles = "Moderator,Admin")]
     public async Task<IActionResult> Create(SliderCreateViewModel model)
     {
         if (!ModelState.IsValid) 
@@ -46,6 +50,7 @@ public class SliderController : Controller
 
         return RedirectToAction(nameof(Index));
     }
+    [Authorize(Roles = "Moderator,Admin")]
     public async Task<IActionResult> Update(int id)
     {
         var slider = await _sliderService.GetAsync(id);
@@ -57,12 +62,14 @@ public class SliderController : Controller
         return View(sliderUpdate);
     }
     [HttpPost]
+    [Authorize(Roles = "Moderator,Admin")]
     public async Task<IActionResult> Update(SliderUpdateViewModel model)
     {
         await _sliderService.UpdateAsync(model);
 
         return RedirectToAction(nameof(Index));
     }
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(int id)
     {
         var slider = await _sliderService.GetAsync(id);

@@ -63,9 +63,9 @@ public class AccountController : Controller
     }
     public async Task<IActionResult> Logout()
     {
-        await _accountService.LogoutAsync();
+        var result = await _accountService.LogoutAsync();
 
-        return RedirectToAction("index", "home");
+        return Json(result);
     }
     [HttpGet]
     public async Task<IActionResult> VerifyEmail(string userId, string token)

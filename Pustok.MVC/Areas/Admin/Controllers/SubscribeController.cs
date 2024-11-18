@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Pustok.BLL.Services.Abstraction;
 using Pustok.BLL.ViewModels;
 
 namespace Pustok.MVC.Areas.Admin.Controllers;
 [Area("Admin")]
+[Authorize(Roles = "Moderator,Admin")]
 [AutoValidateAntiforgeryToken]
 public class SubscribeController : Controller
 {
@@ -17,7 +19,7 @@ public class SubscribeController : Controller
         _subscribeService = subscribeService;
         _mapper = mapper;
     }
-
+    [Authorize(Roles = "Moderator,Admin")]
     public async Task<IActionResult> Index(int page = 0)
     {
         var subscribes = await _subscribeService.GetPagesAsync(index : page,size:2);
@@ -25,7 +27,7 @@ public class SubscribeController : Controller
         return View(subscribes);
     }
 
-
+    [Authorize(Roles = "Moderator,Admin")]
     public IActionResult Create()
     {
         var vm = new SubscribeCreateViewModel()
@@ -36,6 +38,7 @@ public class SubscribeController : Controller
     }
 
     [HttpPost]
+    [Authorize(Roles = "Moderator,Admin")]
     public async Task<IActionResult> Create(SubscribeCreateViewModel model)
     {
         if (!ModelState.IsValid) return View(model);
@@ -44,6 +47,7 @@ public class SubscribeController : Controller
 
         return RedirectToAction(nameof(Index));
     }
+    [Authorize(Roles = "Moderator,Admin")]
     public async Task<IActionResult> Update(int id)
     {
         var subscribe = await _subscribeService.GetAsync(id);
@@ -55,6 +59,7 @@ public class SubscribeController : Controller
         return View(subscribeVm);
     }
     [HttpPost]
+    [Authorize(Roles = "Moderator,Admin")]
     public async Task<IActionResult> Update(SubscribeUpdateViewModel model)
     {
         if (!ModelState.IsValid) return View(model);
@@ -63,6 +68,7 @@ public class SubscribeController : Controller
 
         return RedirectToAction(nameof(Index));
     }
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(int id)
     {
         await _subscribeService.RemoveAsync(id);

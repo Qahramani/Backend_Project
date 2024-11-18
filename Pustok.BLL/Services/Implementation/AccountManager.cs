@@ -8,6 +8,7 @@ using Pustok.BLL.Helpers.Contracts;
 using Pustok.BLL.Services.Abstraction;
 using Pustok.BLL.ViewModels.AccountViewModels;
 using Pustok.DAL.Enums;
+using System.Security.Claims;
 using System.Security.Principal;
 
 namespace Pustok.BLL.Services.Implementation;
@@ -134,14 +135,18 @@ public class AccountManager : IAccountService
 
         return new ServiceResponse { Success = true };
     }
-    public async Task<bool> LogoutAsync()
+    public async Task<string> LogoutAsync()
     {
         if (!_httpContextAccessor.HttpContext?.User.Identity?.IsAuthenticated ?? false)
-            return false;
+            return "something went wrong";
+
+        var userId = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        var  user = await _userManager.FindByIdAsync(userId);
 
         await _signInManager.SignOutAsync();
 
-        return true;
+        return user.Email;
     }
 
 }

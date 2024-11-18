@@ -8,5 +8,5 @@ public interface IAccountService
 {
     Task<bool> LoginAsync(LoginViewModel loginVm, ModelStateDictionary modelState);
     Task<ServiceResponse> RegisetrAsync(RegisterViewModel registerVm, ModelStateDictionary modelState);
-    Task<bool> LogoutAsync();
+    Task<string> LogoutAsync();
 }
